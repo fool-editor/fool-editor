@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+ext.jmonkeyengineVersion = '3.6.1-stable'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:32.1.2-jre'
+    implementation 'org.jmonkeyengine:jme3-core:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion
+}
+
+application {
+    mainClass = 'com.ooqn.assist.App'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
