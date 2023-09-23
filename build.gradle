@@ -1,6 +1,6 @@
 plugins {
-    id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 java {
@@ -8,17 +8,20 @@ java {
     targetCompatibility = '17'
 }
 
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls','javafx.graphics','javafx.fxml' ]
+}
+
 ext.jmonkeyengineVersion = '3.6.1-stable'
 
 repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/' }
     mavenCentral()
 }
 
 dependencies {
     implementation 'com.google.guava:guava:32.1.2-jre'
-    implementation 'org.jmonkeyengine:jme3-core:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-desktop:' + jmonkeyengineVersion
-    implementation 'org.jmonkeyengine:jme3-lwjgl3:' + jmonkeyengineVersion
 }
 
 application {
