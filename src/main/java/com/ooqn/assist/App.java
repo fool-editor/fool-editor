@@ -1,5 +1,8 @@
 package com.ooqn.assist;
 
+import com.ooqn.assist.tab.TextTab;
+import com.ooqn.assist.tab.WebTab;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -8,150 +11,137 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
+    public static Stage stage;
+
     @Override
     public void start(Stage stage) throws Exception {
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(0, new Menu("sdjfklsd"));
-
-        stage.setWidth(800);
-        stage.setHeight(600);
+        App.stage = stage;
+        stage.setMaximized(true);
+        stage.setWidth(1500);
+        stage.setHeight(800);
 
         VBox vBox = new VBox();
 
-        SplitPane splitPane = new SplitPane();
-        splitPane.setMinHeight(400 - 80);
+        vBox.getChildren().add(0, createMenuBar());
+        vBox.getChildren().add(1, createMainBody());
+        vBox.getChildren().add(2, createFloot());
 
-        WebView createWebView = createWebView();
-
-        // 在 TabPane 上放 Tab
-        TabPane tabPane = new TabPane();
-        tabPane.setStyle("-fx-background-color:#fffff0");
-
-        Tab tab1 = new Tab("tab1");// tab无法设置宽高
-        tab1.setStyle("-fx-min-width: 200px !important; -fx-max-width: 200px !important;");
-        Tab tab2 = new Tab("tab2");
-        Tab tab3 = new Tab("tab3");
-
-        tabPane.getTabs().addAll(tab1, tab2, tab3);
-
-        tab1.setContent(createWebView());
-
-        ScrollPane scrollPane = new ScrollPane(tabPane);
-
-        tabPane.setMinHeight(scrollPane.getHeight());
-        tabPane.setMinWidth(scrollPane.getWidth());
-
-        AnchorPane leftPane = new AnchorPane();
-        leftPane.setMinWidth(200);
-        leftPane.setMaxWidth(200);
-
-
-        Accordion accordion = new Accordion();
+        Scene scene = new Scene(vBox);
+        stage.setTitle("TestDemo");
+        stage.setScene(scene);
 
         
-        TitledPane titledPane1 = createTitledPane("asdfasdf",500);
-        TitledPane titledPane2 = createTitledPane("asdfasdf",500);
+        stage.show();
+    }
 
-        
+    public static MenuBar createMenuBar() {
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(0, new Menu("File"));
+        menuBar.getMenus().add(0, new Menu("Edit"));
+        menuBar.getMenus().add(0, new Menu("Help"));
+        return menuBar;
+    }
 
+    public static SplitPane createMainBody() {
 
-        accordion.getPanes().addAll(titledPane1, titledPane2);
+        TabPane tabBody = createTabBody();
 
-        accordion.getHeight();
-        
+        SplitPane leftSplitPane = new SplitPane();
 
-        leftPane.widthProperty().addListener((observable, oldValue, newValue) ->{
-            accordion.setMinWidth(newValue.doubleValue());
+        Accordion leftDown = new Accordion();
+
+        // top
+        TitledPane sx = createTitledPane("目录", leftDown, leftSplitPane);
+        Accordion leftTop = new Accordion(sx);
+        leftTop.setExpandedPane(sx);
+
+        // down
+        TitledPane ml = createTitledPane("目录", leftDown, leftSplitPane);
+        TitledPane gn = createTitledPane("功能", leftDown, leftSplitPane);
+        leftDown.getPanes().add(0, ml);
+        leftDown.getPanes().add(1, gn);
+        leftDown.setExpandedPane(ml);
+
+        leftSplitPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            leftDown.setPrefWidth(newValue.doubleValue());
         });
-       
-        
 
-        leftPane.getChildren().add(0, accordion);
+        leftSplitPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            leftDown.setPrefHeight(newValue.doubleValue());
+        });
+
+        leftSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
+        leftSplitPane.getItems().add(0, leftTop);
+        leftSplitPane.getItems().add(1, leftDown);
+
+        leftSplitPane.setMaxWidth(200);
+        leftSplitPane.setMinWidth(200);
+
+        SplitPane splitPane = new SplitPane();
+        splitPane.setMinHeight(stage.getHeight() - 80);
 
         AnchorPane rightPane = new AnchorPane();
-        rightPane.setMinWidth(200);
         rightPane.setMaxWidth(200);
+        rightPane.setMinWidth(200);
 
-        splitPane.getItems().add(0,leftPane );
-        splitPane.getItems().add(1, scrollPane);
+        splitPane.getItems().add(0, leftSplitPane);
+        splitPane.getItems().add(1, tabBody);
         splitPane.getItems().add(2, rightPane);
 
-        scrollPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            createWebView.setMinHeight(scrollPane.getHeight());
-            tabPane.setMinHeight(scrollPane.getHeight());
-        });
-
-        scrollPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            createWebView.setMinWidth(scrollPane.getWidth());
-            tabPane.setMinWidth(scrollPane.getWidth());
-        });
-
-        HBox hBox = new HBox(new Label("hello"));
-        hBox.setPrefHeight(50);
-
-        vBox.getChildren().add(0, menuBar);
-        vBox.getChildren().add(1, splitPane);
-        vBox.getChildren().add(2, hBox);
 
         stage.heightProperty().addListener((observable, oldValue, newValue) -> {
             splitPane.setMinHeight(newValue.doubleValue() - 80);
         });
 
-        Scene scene = new Scene(vBox);
-        stage.setTitle("fxml窗体");
-        stage.setScene(scene);
-        stage.show();
+        return splitPane;
     }
 
-    private static Accordion createHe(Accordion pane){
-        Accordion accordion = new Accordion();
-        pane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            accordion.setMinHeight(newValue.doubleValue());
-        });
-        return accordion;
+    public static TabPane createTabBody() {
+
+        // 在 TabPane 上放 Tab
+        TabPane tabPane = new TabPane();
+        tabPane.setStyle("-fx-background-color:#fffff0");
+
+        tabPane.getTabs().addAll(new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
+                new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
+                new TextTab("tab1"), new WebTab("webTable"), new TextTab("为什么你.java"));
+
+        return tabPane;
+    }
+
+    public static HBox createFloot() {
+        HBox hBox = new HBox(new Label("hello"));
+        hBox.setPrefHeight(50);
+        return hBox;
     }
 
     public static void run(String[] args) {
         launch(args);
     }
 
-    private static WebView createWebView() {
-        WebView webView1 = new WebView();
-        WebEngine webEngine1 = webView1.getEngine();
-        webEngine1.load("https://baidu.com");
-        return webView1;
-    }
-
-    private TitledPane createTitledPane(String title, double maxHeight) {
+    private static TitledPane createTitledPane(String title, Accordion accordion, SplitPane p) {
         TitledPane pane = new TitledPane();
         pane.setText(title);
 
-        VBox content = new VBox();
-        Rectangle rectangle = new Rectangle(200, maxHeight);
-        rectangle.setFill(Color.LIGHTGRAY);
-        content.getChildren().add(rectangle);
+        int size = accordion.getPanes().size();
 
-        pane.setContent(content);
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefHeight(size * 25);
 
-        // 设置内容的最大高度
-        content.setMaxHeight(maxHeight);
+        p.heightProperty().addListener((observable, oldValue, newValue) -> {
+            anchorPane.setPrefHeight(newValue.doubleValue() - size * 25);
+        });
+
+        pane.setContent(anchorPane);
 
         return pane;
     }
