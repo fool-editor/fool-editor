@@ -1,5 +1,8 @@
 package com.ooqn.assist;
 
+import com.ooqn.assist.accordion.MlTitledPane;
+import com.ooqn.assist.module.FileMl;
+import com.ooqn.assist.tab.HtmlTab;
 import com.ooqn.assist.tab.TextTab;
 import com.ooqn.assist.tab.WebTab;
 
@@ -9,7 +12,6 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
@@ -59,14 +61,17 @@ public class App extends Application {
 
         Accordion leftDown = new Accordion();
 
-        // top
+        // top new MlTitledPane("目录")
         TitledPane sx = createTitledPane("目录", leftDown, leftSplitPane);
+        sx.setContent(FileMl.createMl());
         Accordion leftTop = new Accordion(sx);
         leftTop.setExpandedPane(sx);
 
         // down
         TitledPane ml = createTitledPane("目录", leftDown, leftSplitPane);
         TitledPane gn = createTitledPane("功能", leftDown, leftSplitPane);
+
+        
         leftDown.getPanes().add(0, ml);
         leftDown.getPanes().add(1, gn);
         leftDown.setExpandedPane(ml);
@@ -111,7 +116,7 @@ public class App extends Application {
         TabPane tabPane = new TabPane();
         tabPane.setStyle("-fx-background-color:#fffff0");
 
-        tabPane.getTabs().addAll(new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
+        tabPane.getTabs().addAll(new HtmlTab("Test.html"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
                 new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
                 new TextTab("tab1"), new WebTab("webTable"), new TextTab("为什么你.java"));
 
@@ -135,8 +140,6 @@ public class App extends Application {
         int size = accordion.getPanes().size();
 
         AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setPrefHeight(size * 25);
-
         p.heightProperty().addListener((observable, oldValue, newValue) -> {
             anchorPane.setPrefHeight(newValue.doubleValue() - size * 25);
         });
