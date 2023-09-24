@@ -10,7 +10,7 @@ java {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls','javafx.graphics','javafx.fxml' ]
+    modules = [ 'javafx.controls','javafx.graphics','javafx.fxml','javafx.web' ]
 }
 
 ext.jmonkeyengineVersion = '3.6.1-stable'
