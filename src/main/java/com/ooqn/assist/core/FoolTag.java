@@ -4,9 +4,9 @@ import javafx.application.Platform;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 
-public class NewTag extends Tab{
+public class FoolTag extends Tab{
     
-    public NewTag(String tabName){
+    public FoolTag(String tabName){
         setText(tabName);
         Platform.runLater(() -> {
             double textWidth = new Text(tabName).getBoundsInLocal().getWidth();

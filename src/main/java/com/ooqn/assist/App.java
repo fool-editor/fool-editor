@@ -1,7 +1,7 @@
 package com.ooqn.assist;
 
-import com.ooqn.assist.core.MainContext;
-import com.ooqn.assist.core.NewTag;
+import com.ooqn.assist.core.FoolContext;
+import com.ooqn.assist.core.FoolTag;
 import com.ooqn.assist.plugin.ConsolePlugin;
 import com.ooqn.assist.plugin.ExplorerPlugin;
 import com.ooqn.assist.plugin.ToolPlugin;
@@ -36,9 +36,9 @@ public class App extends Application {
         createMainBody();
         createMenuBar();
 
-        vBox.getChildren().add(0, MainContext.menu);
-        vBox.getChildren().add(1, MainContext.createMainBody);
-        vBox.getChildren().add(2, MainContext.createFloot);
+        vBox.getChildren().add(0, FoolContext.menu);
+        vBox.getChildren().add(1, FoolContext.createMainBody);
+        vBox.getChildren().add(2, FoolContext.createFloot);
 
         Scene scene = new Scene(vBox);
         stage.setTitle("TestDemo");
@@ -54,7 +54,7 @@ public class App extends Application {
         menuBar.getMenus().add(0, new Menu("Help"));
         menuBar.minWidth(500);
 
-        MainContext.menu = menuBar;
+        FoolContext.menu = menuBar;
     }
 
     public static void createMainBody() {
@@ -64,17 +64,17 @@ public class App extends Application {
         Accordion leftDown = new Accordion();
         leftTop.setMinHeight(28);
         leftDown.setMinHeight(28);
-        MainContext.leftTop = leftTop; 
-        MainContext.leftDown = leftDown;
+        FoolContext.leftTop = leftTop; 
+        FoolContext.leftDown = leftDown;
         
         
         SplitPane leftSplitPane = new SplitPane();
         leftSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
-        leftSplitPane.getItems().add(0, MainContext.leftTop);
-        leftSplitPane.getItems().add(1, MainContext.leftDown);
+        leftSplitPane.getItems().add(0, FoolContext.leftTop);
+        leftSplitPane.getItems().add(1, FoolContext.leftDown);
         leftSplitPane.setMaxWidth(200);
         leftSplitPane.setMinWidth(200);
-        MainContext.leftSplitPane = leftSplitPane;
+        FoolContext.leftSplitPane = leftSplitPane;
 
         // 右边
         Accordion rightTop = new Accordion();
@@ -93,13 +93,13 @@ public class App extends Application {
         SplitPane mainSplitPane = new SplitPane();
         mainSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
         
-        TabPane tabTop = new TabPane(new NewTag("Hello.java"),new NewTag("Box.j3o"));
+        TabPane tabTop = new TabPane(new FoolTag("Hello.java"),new FoolTag("Box.j3o"));
         TabPane tabDown = new TabPane();
 
         tabTop.setMinHeight(28);
         tabDown.setMinHeight(28);
         mainSplitPane.getItems().addAll(tabTop,tabDown);
-        MainContext.tabDown = tabDown;
+        FoolContext.tabDown = tabDown;
 
        
         // 注入
@@ -107,7 +107,7 @@ public class App extends Application {
         createMainBody.getItems().add(0, leftSplitPane);
         createMainBody.getItems().add(1, mainSplitPane);
         createMainBody.getItems().add(2, rightSplitPane);
-        MainContext.createMainBody = createMainBody;
+        FoolContext.createMainBody = createMainBody;
 
 
         stage.heightProperty().addListener((observable, oldValue, newValue) -> {
@@ -125,8 +125,8 @@ public class App extends Application {
     }
 
     public static void createFloot() {
-        MainContext.createFloot= new HBox(new Label("hello"));
-        MainContext.createFloot.setPrefHeight(50);
+        FoolContext.createFloot= new HBox(new Label("hello"));
+        FoolContext.createFloot.setPrefHeight(50);
     }
 
     public static void run(String[] args) {

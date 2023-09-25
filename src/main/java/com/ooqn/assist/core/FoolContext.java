@@ -6,7 +6,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 
-public class MainContext {
+public class FoolContext {
 
     public static MenuBar menu;
 

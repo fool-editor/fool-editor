@@ -1,6 +1,6 @@
 package com.ooqn.assist.plugin;
 
-import com.ooqn.assist.core.MainContext;
+import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.core.Plugin;
 
 import javafx.scene.control.Label;
@@ -10,7 +10,7 @@ public class ToolPlugin implements Plugin {
 
     @Override
     public void init() {
-        MainContext.leftDown.getPanes().add(new TitledPane("工具", new Label("ksldjfksjdf")));
+        FoolContext.leftDown.getPanes().add(new TitledPane("工具", new Label("ksldjfksjdf")));
     }
 
 }
