@@ -6,13 +6,11 @@ import com.ooqn.assist.core.Plugin;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 
-public class ExplorerPlugin implements Plugin {
+public class ToolPlugin implements Plugin {
 
     @Override
     public void init() {
-        MainContext.leftTop.getPanes().add(new TitledPane("目录", new Label("ksldjfksjdf")));
-        
+        MainContext.leftDown.getPanes().add(new TitledPane("工具", new Label("ksldjfksjdf")));
     }
 
-    
 }

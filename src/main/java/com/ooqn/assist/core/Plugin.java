@@ -1,11 +1,11 @@
 package com.ooqn.assist.core;
 
-import javafx.scene.layout.AnchorPane;
-
 public interface Plugin {
     
-    public AnchorPane open(String filePath);
-
-    public AnchorPane menu();
+    /**
+     * 插件可以查看的文件格式 ， 插件的注入菜单
+     * @param mainContext
+     */
+    public void init();
 
 }

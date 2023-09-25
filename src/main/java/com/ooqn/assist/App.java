@@ -2,18 +2,22 @@ package com.ooqn.assist;
 
 import com.ooqn.assist.core.MainContext;
 import com.ooqn.assist.core.NewTag;
+import com.ooqn.assist.plugin.ConsolePlugin;
+import com.ooqn.assist.plugin.ExplorerPlugin;
+import com.ooqn.assist.plugin.ToolPlugin;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -23,8 +27,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         App.stage = stage;
-        stage.setWidth(0);
-        stage.setHeight(0);
         stage.setMaximized(true);
         
 
@@ -34,7 +36,7 @@ public class App extends Application {
         createMainBody();
         createMenuBar();
 
-        vBox.getChildren().add(0, MainContext.menuBar);
+        vBox.getChildren().add(0, MainContext.menu);
         vBox.getChildren().add(1, MainContext.createMainBody);
         vBox.getChildren().add(2, MainContext.createFloot);
 
@@ -42,17 +44,17 @@ public class App extends Application {
         stage.setTitle("TestDemo");
         stage.setScene(scene);
 
-        scene.heightProperty().addListener((observable, oldValue, newValue) -> {
-            
-        });
         stage.show();
     }
 
     public static void createMenuBar() {
-        MainContext.menuBar = new MenuBar();
-        MainContext.menuBar.getMenus().add(0, new Menu("File"));
-        MainContext.menuBar.getMenus().add(0, new Menu("Edit"));
-        MainContext.menuBar.getMenus().add(0, new Menu("Help"));
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(0, new Menu("File"));
+        menuBar.getMenus().add(0, new Menu("Edit"));
+        menuBar.getMenus().add(0, new Menu("Help"));
+        menuBar.minWidth(500);
+
+        MainContext.menu = menuBar;
     }
 
     public static void createMainBody() {
@@ -62,13 +64,17 @@ public class App extends Application {
         Accordion leftDown = new Accordion();
         leftTop.setMinHeight(28);
         leftDown.setMinHeight(28);
+        MainContext.leftTop = leftTop; 
+        MainContext.leftDown = leftDown;
+        
         
         SplitPane leftSplitPane = new SplitPane();
         leftSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
-        leftSplitPane.getItems().add(0, leftTop);
-        leftSplitPane.getItems().add(1, leftDown);
+        leftSplitPane.getItems().add(0, MainContext.leftTop);
+        leftSplitPane.getItems().add(1, MainContext.leftDown);
         leftSplitPane.setMaxWidth(200);
         leftSplitPane.setMinWidth(200);
+        MainContext.leftSplitPane = leftSplitPane;
 
         // 右边
         Accordion rightTop = new Accordion();
@@ -88,23 +94,34 @@ public class App extends Application {
         mainSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
         
         TabPane tabTop = new TabPane(new NewTag("Hello.java"),new NewTag("Box.j3o"));
-        TabPane tabDown = new TabPane(new NewTag("Console"),new NewTag("Debug"));
+        TabPane tabDown = new TabPane();
 
         tabTop.setMinHeight(28);
         tabDown.setMinHeight(28);
         mainSplitPane.getItems().addAll(tabTop,tabDown);
+        MainContext.tabDown = tabDown;
 
+       
         // 注入
-        MainContext.createMainBody = new SplitPane();
-        MainContext.createMainBody.getItems().add(0, leftSplitPane);
-        MainContext.createMainBody.getItems().add(1, mainSplitPane);
-        MainContext.createMainBody.getItems().add(2, rightSplitPane);
+        SplitPane createMainBody = new SplitPane();
+        createMainBody.getItems().add(0, leftSplitPane);
+        createMainBody.getItems().add(1, mainSplitPane);
+        createMainBody.getItems().add(2, rightSplitPane);
+        MainContext.createMainBody = createMainBody;
 
 
         stage.heightProperty().addListener((observable, oldValue, newValue) -> {
-            MainContext.createMainBody.setMinHeight(newValue.doubleValue() - 80);
+            createMainBody.setMinHeight(newValue.doubleValue() - 80);
         });
 
+        ExplorerPlugin explorerPlugin = new ExplorerPlugin();
+        explorerPlugin.init();
+
+        ToolPlugin toolPlugin = new ToolPlugin();
+        toolPlugin.init();
+
+        ConsolePlugin consolePlugin = new ConsolePlugin();
+        consolePlugin.init();
     }
 
     public static void createFloot() {
