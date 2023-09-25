@@ -1,10 +1,7 @@
 package com.ooqn.assist;
 
-import com.ooqn.assist.accordion.MlTitledPane;
-import com.ooqn.assist.module.FileMl;
-import com.ooqn.assist.tab.HtmlTab;
-import com.ooqn.assist.tab.TextTab;
-import com.ooqn.assist.tab.WebTab;
+import com.ooqn.assist.core.MainContext;
+import com.ooqn.assist.core.NewTag;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -13,9 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -27,125 +23,96 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         App.stage = stage;
+        stage.setWidth(0);
+        stage.setHeight(0);
         stage.setMaximized(true);
-        stage.setWidth(1500);
-        stage.setHeight(800);
+        
 
         VBox vBox = new VBox();
 
-        vBox.getChildren().add(0, createMenuBar());
-        vBox.getChildren().add(1, createMainBody());
-        vBox.getChildren().add(2, createFloot());
+        createFloot();
+        createMainBody();
+        createMenuBar();
+
+        vBox.getChildren().add(0, MainContext.menuBar);
+        vBox.getChildren().add(1, MainContext.createMainBody);
+        vBox.getChildren().add(2, MainContext.createFloot);
 
         Scene scene = new Scene(vBox);
         stage.setTitle("TestDemo");
         stage.setScene(scene);
 
-        
+        scene.heightProperty().addListener((observable, oldValue, newValue) -> {
+            
+        });
         stage.show();
     }
 
-    public static MenuBar createMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(0, new Menu("File"));
-        menuBar.getMenus().add(0, new Menu("Edit"));
-        menuBar.getMenus().add(0, new Menu("Help"));
-        return menuBar;
+    public static void createMenuBar() {
+        MainContext.menuBar = new MenuBar();
+        MainContext.menuBar.getMenus().add(0, new Menu("File"));
+        MainContext.menuBar.getMenus().add(0, new Menu("Edit"));
+        MainContext.menuBar.getMenus().add(0, new Menu("Help"));
     }
 
-    public static SplitPane createMainBody() {
+    public static void createMainBody() {
 
-        TabPane tabBody = createTabBody();
-
-        SplitPane leftSplitPane = new SplitPane();
-
+        // 左边
+        Accordion leftTop = new Accordion();
         Accordion leftDown = new Accordion();
-
-        // top new MlTitledPane("目录")
-        TitledPane sx = createTitledPane("目录", leftDown, leftSplitPane);
-        sx.setContent(FileMl.createMl());
-        Accordion leftTop = new Accordion(sx);
-        leftTop.setExpandedPane(sx);
-
-        // down
-        TitledPane ml = createTitledPane("目录", leftDown, leftSplitPane);
-        TitledPane gn = createTitledPane("功能", leftDown, leftSplitPane);
-
+        leftTop.setMinHeight(28);
+        leftDown.setMinHeight(28);
         
-        leftDown.getPanes().add(0, ml);
-        leftDown.getPanes().add(1, gn);
-        leftDown.setExpandedPane(ml);
-
-        leftSplitPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            leftDown.setPrefWidth(newValue.doubleValue());
-        });
-
-        leftSplitPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            leftDown.setPrefHeight(newValue.doubleValue());
-        });
-
+        SplitPane leftSplitPane = new SplitPane();
         leftSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
         leftSplitPane.getItems().add(0, leftTop);
         leftSplitPane.getItems().add(1, leftDown);
-
         leftSplitPane.setMaxWidth(200);
         leftSplitPane.setMinWidth(200);
 
-        SplitPane splitPane = new SplitPane();
-        splitPane.setMinHeight(stage.getHeight() - 80);
+        // 右边
+        Accordion rightTop = new Accordion();
+        Accordion rightDown = new Accordion();
+        rightTop.setMinHeight(28);
+        rightDown.setMinHeight(28);
 
-        AnchorPane rightPane = new AnchorPane();
-        rightPane.setMaxWidth(200);
-        rightPane.setMinWidth(200);
+        SplitPane rightSplitPane = new SplitPane();
+        rightSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
+        rightSplitPane.getItems().add(0, rightTop);
+        rightSplitPane.getItems().add(1, rightDown);
+        rightSplitPane.setMaxWidth(200);
+        rightSplitPane.setMinWidth(200);
+        
+        // 中间部分
+        SplitPane mainSplitPane = new SplitPane();
+        mainSplitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
+        
+        TabPane tabTop = new TabPane(new NewTag("Hello.java"),new NewTag("Box.j3o"));
+        TabPane tabDown = new TabPane(new NewTag("Console"),new NewTag("Debug"));
 
-        splitPane.getItems().add(0, leftSplitPane);
-        splitPane.getItems().add(1, tabBody);
-        splitPane.getItems().add(2, rightPane);
+        tabTop.setMinHeight(28);
+        tabDown.setMinHeight(28);
+        mainSplitPane.getItems().addAll(tabTop,tabDown);
+
+        // 注入
+        MainContext.createMainBody = new SplitPane();
+        MainContext.createMainBody.getItems().add(0, leftSplitPane);
+        MainContext.createMainBody.getItems().add(1, mainSplitPane);
+        MainContext.createMainBody.getItems().add(2, rightSplitPane);
 
 
         stage.heightProperty().addListener((observable, oldValue, newValue) -> {
-            splitPane.setMinHeight(newValue.doubleValue() - 80);
+            MainContext.createMainBody.setMinHeight(newValue.doubleValue() - 80);
         });
 
-        return splitPane;
     }
 
-    public static TabPane createTabBody() {
-
-        // 在 TabPane 上放 Tab
-        TabPane tabPane = new TabPane();
-        tabPane.setStyle("-fx-background-color:#fffff0");
-
-        tabPane.getTabs().addAll(new HtmlTab("Test.html"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
-                new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"), new TextTab("tab1"),
-                new TextTab("tab1"), new WebTab("webTable"), new TextTab("为什么你.java"));
-
-        return tabPane;
-    }
-
-    public static HBox createFloot() {
-        HBox hBox = new HBox(new Label("hello"));
-        hBox.setPrefHeight(50);
-        return hBox;
+    public static void createFloot() {
+        MainContext.createFloot= new HBox(new Label("hello"));
+        MainContext.createFloot.setPrefHeight(50);
     }
 
     public static void run(String[] args) {
         launch(args);
-    }
-
-    private static TitledPane createTitledPane(String title, Accordion accordion, SplitPane p) {
-        TitledPane pane = new TitledPane();
-        pane.setText(title);
-
-        int size = accordion.getPanes().size();
-
-        AnchorPane anchorPane = new AnchorPane();
-        p.heightProperty().addListener((observable, oldValue, newValue) -> {
-            anchorPane.setPrefHeight(newValue.doubleValue() - size * 25);
-        });
-
-        pane.setContent(anchorPane);
-
-        return pane;
     }
 }

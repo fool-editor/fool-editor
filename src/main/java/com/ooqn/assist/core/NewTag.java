@@ -1,14 +1,12 @@
-package com.ooqn.assist.tab;
+package com.ooqn.assist.core;
 
 import javafx.application.Platform;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
-public class TextTab extends Tab{
-
-    public TextTab(String tabName){
-        setContent(new TextArea());
+public class NewTag extends Tab{
+    
+    public NewTag(String tabName){
         setText(tabName);
         Platform.runLater(() -> {
             double textWidth = new Text(tabName).getBoundsInLocal().getWidth();
