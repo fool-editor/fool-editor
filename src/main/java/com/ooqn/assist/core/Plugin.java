@@ -1,5 +1,7 @@
 package com.ooqn.assist.core;
 
+import javafx.scene.layout.Pane;
+
 public interface Plugin {
     
     /**
