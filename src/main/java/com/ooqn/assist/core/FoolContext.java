@@ -11,7 +11,10 @@ import javafx.scene.layout.HBox;
 
 public class FoolContext {
 
-    public static Map<String,FoolOpenTab> openTab = new HashMap<>();
+    public static Map<String,Object> pluginData = new HashMap<>();
+
+    // 当前工作空间
+    public static String projectPath = "D:\\AProject\\jME3Tutorials";
 
     public static class MainLayout{
 
