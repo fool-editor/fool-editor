@@ -2,8 +2,8 @@ package com.ooqn.assist.core;
 
 import javafx.scene.layout.Pane;
 
-public interface FoolOpenTab {
+public interface FoolOpenFile {
 
-    Pane openTab(String name);
+    Pane openFile(String name);
     
 }
