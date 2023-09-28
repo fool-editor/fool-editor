@@ -13,6 +13,8 @@ public class FoolContext {
 
     public static Map<String,FoolOpenTab> openTab = new HashMap<>();
 
+    public static Map<String,Map<String,Object>> pluginData = new HashMap<>();
+
     public static class MainLayout{
 
         public static MenuBar menu;

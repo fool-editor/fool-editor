@@ -22,4 +22,10 @@ public class ConsolePlugin implements Plugin {
             }
         });
     }
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+        
+    }
 }

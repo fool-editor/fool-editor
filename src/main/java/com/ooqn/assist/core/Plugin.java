@@ -1,7 +1,5 @@
 package com.ooqn.assist.core;
 
-import javafx.scene.layout.Pane;
-
 public interface Plugin {
     
     /**
@@ -9,5 +7,10 @@ public interface Plugin {
      * @param mainContext
      */
     public void init();
+
+    /**
+     * 插件删除
+     */
+    public void delete();
 
 }

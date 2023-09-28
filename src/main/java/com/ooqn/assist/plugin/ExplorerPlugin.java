@@ -10,6 +10,14 @@ public class ExplorerPlugin implements Plugin {
 
     @Override
     public void init() {
-        FoolContext.MainLayout.leftTop.getPanes().add(new TitledPane("目录", new Label("ksldjfksjdf")));
+        TitledPane titledPane = new TitledPane("目录", new Label("ksldjfksjdf"));
+        FoolContext.MainLayout.leftTop.getPanes().add(titledPane);
+        
+    }
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+        
     }
 }
