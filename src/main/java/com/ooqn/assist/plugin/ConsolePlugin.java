@@ -8,12 +8,11 @@ public class ConsolePlugin implements Plugin {
 
     @Override
     public void init() {
-        FoolContext.MainLayout.tabDown.getTabs().add(new FoolTab("控制台"));
+        FoolContext.Layout.tabDown.getTabs().add(new FoolTab("控制台"));
     }
 
     @Override
     public void delete() {
-        // TODO Auto-generated method stub
         
     }
 }

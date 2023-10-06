@@ -4,6 +4,7 @@ import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.core.Plugin;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TitledPane;
 
 public class ToolPlugin implements Plugin {
@@ -13,11 +14,15 @@ public class ToolPlugin implements Plugin {
     @Override
     public void init() {
         TitledPane titledPane = new TitledPane("工具", new Label("ksldjfksjdf"));
-        FoolContext.MainLayout.leftDown.getPanes().add(titledPane);
+        //FoolContext.Layout.leftBody.getItems().getPanes().add(titledPane);
+
+        // Menu 
+        Menu tool = new Menu("Tool");
+        FoolContext.Layout.menu.getMenus().add(tool);
     }
 
     @Override
     public void delete() {
-        FoolContext.MainLayout.leftDown.getPanes().remove(titledPane);        
+        //FoolContext.Layout.left.getPanes().remove(titledPane);        
     }
 }

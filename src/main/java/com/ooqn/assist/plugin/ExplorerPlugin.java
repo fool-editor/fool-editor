@@ -5,6 +5,8 @@ import java.io.File;
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.core.Plugin;
 
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -25,8 +27,11 @@ public class ExplorerPlugin implements Plugin {
             loadFileTree(listFiles2,treeItem);
         }
         
-        FoolContext.MainLayout.leftTop.getPanes().add(new TitledPane("目录", treeView));
-        
+        FoolContext.Layout.leftBody.getItems().add(new TitledPane("目录", treeView));
+
+        Menu fileMenu = new Menu("File");
+        fileMenu.getItems().add(new MenuItem("save"));       
+        FoolContext.Layout.menu.getMenus().add(fileMenu);
     }
 
     @Override
