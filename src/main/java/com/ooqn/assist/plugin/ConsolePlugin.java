@@ -1,18 +1,24 @@
 package com.ooqn.assist.plugin;
 
-import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.core.FoolTab;
+import java.util.Map;
+
 import com.ooqn.assist.core.Plugin;
 
 public class ConsolePlugin implements Plugin {
 
     @Override
     public void init() {
-        FoolContext.Layout.tabDown.getTabs().add(new FoolTab("控制台"));
+        
     }
 
     @Override
-    public void delete() {
+    public void destroy() {
         
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getData'");
     }
 }

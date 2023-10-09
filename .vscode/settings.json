@@ -1,4 +1,9 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "graalvm.installations": [],
+    "terminal.integrated.env.windows": {
+        "PATH": "${env:PATH}"
+    },
+    "maven.terminal.customEnv": []
 }

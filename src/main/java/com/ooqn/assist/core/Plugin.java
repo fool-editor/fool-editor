@@ -1,5 +1,7 @@
 package com.ooqn.assist.core;
 
+import java.util.Map;
+
 public interface Plugin {
     
     /**
@@ -11,6 +13,11 @@ public interface Plugin {
     /**
      * 插件删除
      */
-    public void delete();
+    public void destroy();
+
+    /**
+     * 获取这个插件拥有的相关属性，模块。
+     */
+    public Map<String,Object> getData();
 
 }
