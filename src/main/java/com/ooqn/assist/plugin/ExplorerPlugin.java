@@ -1,30 +1,32 @@
 package com.ooqn.assist.plugin;
 
+import java.io.File;
 import java.util.Map;
 
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.core.Plugin;
 
-import javafx.geometry.Side;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 
 public class ExplorerPlugin implements Plugin {
 
+
     @Override
     public void init() {
-        TabPane tabPane = new TabPane();
-        Tab ml = new Tab("目录");
-        ml.setContent(new Label("kdjfkdjf"));
-        Tab gj = new Tab("构建");
-        tabPane.setSide(Side.LEFT);
-        ml.setClosable(false);
-        gj.setClosable(false);
-        tabPane.getTabs().addAll(ml,gj);
-        FoolContext.getLeft().getItems().addAll(tabPane);
 
-        pluginData.put("tabPane", tabPane);
+         String projectPath = "C:\\Users\\Bobcbui No\\Downloads";
+
+        File file = new File(projectPath);
+        File[] listFiles = file.listFiles();
+        
+        TreeItem<String> treeItem = new TreeItem<>(file.getName());
+        TreeView<String> treeView = new TreeView<>(treeItem);
+        for (File listFiles2 : listFiles) {
+            loadFileTree(listFiles2,treeItem);
+        }
+        
+        FoolContext.getLeft().getItems().addAll(treeView);
     }
 
     @Override
@@ -38,6 +40,18 @@ public class ExplorerPlugin implements Plugin {
     @Override
     public Map<String, Object> getData() {
         return pluginData;
+    }
+
+    
+    void loadFileTree(File file, TreeItem<String> treeItem) {
+        TreeItem<String> item1 = new TreeItem<>(file.getName());
+        treeItem.getChildren().add(item1);
+        if (file.isDirectory()) {
+            File[] listFiles = file.listFiles();
+            for (File listFiles2 : listFiles) {
+                loadFileTree(listFiles2, item1);
+            }
+        }
     }
 
 }
