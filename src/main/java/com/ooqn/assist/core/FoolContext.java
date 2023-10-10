@@ -15,31 +15,31 @@ import javafx.stage.Stage;
 
 public class FoolContext {
 
-    public static Stage stage;
+    private static Stage stage;
 
-    public static Scene scene;
+    private static Scene scene;
 
-    public static Map<String, Map<String, Object>> pluginData = new HashMap<>();
+    private static Map<String, Map<String, Object>> pluginData = new HashMap<>();
 
     private static PluginManage pluginManage = new PluginManage();
+
+    private static MenuBar menu = new MenuBar();
+
+    private static SplitPane main = new SplitPane();
+
+    private static SplitPane body = new SplitPane();
+
+    private static SplitPane left = new SplitPane();
+
+    private static SplitPane right = new SplitPane();
+
+    private static HBox createFloot;
+
+    private static TabPane tabDown;
 
     public static PluginManage getPluginManage() {
         return pluginManage;
     }
-
-    public static MenuBar menu = new MenuBar();
-
-    public static SplitPane main = new SplitPane();
-
-    public static SplitPane body = new SplitPane();
-
-    public static SplitPane left = new SplitPane();
-
-    public static SplitPane right = new SplitPane();
-
-    public static HBox createFloot;
-
-    public static TabPane tabDown;
 
     static {
 
@@ -47,20 +47,111 @@ public class FoolContext {
         createFloot.setPrefHeight(50);
 
         left.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
-        body.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
         right.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
+        body.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
 
+     
+        left.setMaxWidth(200);
+        left.setMinWidth(200);
+
+        right.setMaxWidth(200);
+        right.setMinWidth(200);
 
         main = new SplitPane();
         main.getItems().add(0, left);
         main.getItems().add(1, body);
         main.getItems().add(2, right);
-        main.setPrefHeight(500);
 
-        menu.getMenus().add(new Menu("File"));
-        
         scene = new Scene(new VBox(menu, main, createFloot));
 
+        
+
     }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        FoolContext.stage = stage;
+    }
+
+    public static Scene getScene() {
+        return scene;
+    }
+
+    public static void setScene(Scene scene) {
+        FoolContext.scene = scene;
+    }
+
+    public static Map<String, Map<String, Object>> getPluginData() {
+        return pluginData;
+    }
+
+    public static void setPluginData(Map<String, Map<String, Object>> pluginData) {
+        FoolContext.pluginData = pluginData;
+    }
+
+    public static void setPluginManage(PluginManage pluginManage) {
+        FoolContext.pluginManage = pluginManage;
+    }
+
+    public static MenuBar getMenu() {
+        return menu;
+    }
+
+    public static void setMenu(MenuBar menu) {
+        FoolContext.menu = menu;
+    }
+
+    public static SplitPane getMain() {
+        return main;
+    }
+
+    public static void setMain(SplitPane main) {
+        FoolContext.main = main;
+    }
+
+    public static SplitPane getBody() {
+        return body;
+    }
+
+    public static void setBody(SplitPane body) {
+        FoolContext.body = body;
+    }
+
+    public static SplitPane getLeft() {
+        return left;
+    }
+
+    public static void setLeft(SplitPane left) {
+        FoolContext.left = left;
+    }
+
+    public static SplitPane getRight() {
+        return right;
+    }
+
+    public static void setRight(SplitPane right) {
+        FoolContext.right = right;
+    }
+
+    public static HBox getCreateFloot() {
+        return createFloot;
+    }
+
+    public static void setCreateFloot(HBox createFloot) {
+        FoolContext.createFloot = createFloot;
+    }
+
+    public static TabPane getTabDown() {
+        return tabDown;
+    }
+
+    public static void setTabDown(TabPane tabDown) {
+        FoolContext.tabDown = tabDown;
+    }
+
+    
 
 }

@@ -1,0 +1,48 @@
+/* 设置TabPane的背景颜色 */
+.tab-pane {
+    -fx-background-color: #2E2E2E;
+}
+
+/* 设置Tab的默认样式 */
+.tab {
+    -fx-background-color: transparent;
+    -fx-border-color: #4A4A4A;
+    -fx-border-width: 0 0 0 2px;
+    -fx-padding: 10 20 10 20;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+}
+
+/* 设置Tab的鼠标悬停样式 */
+.tab:hover {
+    -fx-background-color: #3A3A3A;
+}
+
+/* 设置选中的Tab样式 */
+.tab:selected {
+    -fx-background-color: #505050;
+    -fx-border-color: #4A90E2;
+    -fx-border-width: 0 0 0 2px;
+}
+
+/* 设置Tab关闭按钮的样式 */
+.tab .tab-close-button {
+    -fx-background-color: transparent;
+    -fx-shape: null;
+    -fx-content-display: graphic-only;
+}
+
+/* 设置Tab关闭按钮的图标 */
+.tab .tab-close-button .tab-close-button-label {
+    -fx-graphic: url('close.png');
+}
+
+/* 设置Tab关闭按钮的鼠标悬停样式 */
+.tab .tab-close-button:hover {
+    -fx-background-color: #E57373;
+}
+
+/* 设置Tab关闭按钮的鼠标点击样式 */
+.tab .tab-close-button:pressed {
+    -fx-background-color: #D32F2F;
+}
