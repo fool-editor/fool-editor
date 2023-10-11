@@ -37,6 +37,8 @@ public class FoolContext {
 
     private static TabPane tabDown;
 
+    private static boolean b = false;
+
     public static PluginManage getPluginManage() {
         return pluginManage;
     }
@@ -51,20 +53,34 @@ public class FoolContext {
         body.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
 
      
-        left.setMaxWidth(200);
-        left.setMinWidth(200);
+        //left.setPrefWidth(200);
+        //left.setMinWidth(200);
 
-        right.setMaxWidth(200);
-        right.setMinWidth(200);
+        //right.setMaxWidth(200);
+        //right.setMinWidth(200);
 
         main = new SplitPane();
         main.getItems().add(0, left);
         main.getItems().add(1, body);
         main.getItems().add(2, right);
 
+        left.setMaxWidth(200);
+        left.setMinWidth(200);
+
+        
         scene = new Scene(new VBox(menu, main, createFloot));
 
         
+        main.getDividers().get(0).positionProperty().addListener((obs, oldValue, newValue) -> {
+            // 在这里根据新的分隔条位置来调整子面板的宽度
+            if(b){
+                left.setMaxWidth(9999);
+                left.setMinWidth(100);
+                main.getDividers().get(0).setPosition(newValue.doubleValue());
+            }else{
+                b = true;
+            }
+        });
 
     }
 
