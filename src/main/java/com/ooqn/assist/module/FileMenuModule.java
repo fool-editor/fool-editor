@@ -1,20 +1,20 @@
-package com.ooqn.assist.plugin;
+package com.ooqn.assist.module;
 
+import java.io.File;
 import java.util.Map;
 
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.core.Plugin;
+import com.ooqn.assist.core.Module;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 
-public class FileMenuPlugin implements Plugin {
+public class FileMenuModule implements Module {
 
     @Override
     public void destroy() {
-       
+
     }
 
     /*
@@ -22,38 +22,38 @@ public class FileMenuPlugin implements Plugin {
      */
     @Override
     public Map<String, Object> getData() {
-        
-        return pluginData;
+
+        return moduleData;
     }
 
     @Override
     public void init() {
         Menu menu = new Menu("File");
-        
-       
-        menu.getItems().addAll(open(),save(),exit());
-        pluginData.put("menu", menu);
+        menu.getItems().addAll(open(), save(), exit());
+        moduleData.put("menu", menu);
         FoolContext.getMenu().getMenus().add(menu);
     }
 
-    private MenuItem open(){
+    private MenuItem open() {
         MenuItem open = new MenuItem("Open");
-        DirectoryChooser  directoryChooser = new DirectoryChooser ();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
         open.setOnAction(e -> {
-            directoryChooser.showDialog(FoolContext.getStage());
+            File showDialog = directoryChooser.showDialog(FoolContext.getStage());
+            FoolContext.setWorkPath(showDialog.getPath());
+            FoolContext.getModuleManage().addModule(new ExplorerModule());
         });
         return open;
     }
 
-    private MenuItem save(){
+    private MenuItem save() {
         MenuItem save = new MenuItem("Save");
         save.setOnAction(e -> {
-            
+
         });
         return save;
     }
 
-     private MenuItem exit(){
+    private MenuItem exit() {
         MenuItem exit = new MenuItem("Exit");
         exit.setOnAction(e -> {
 

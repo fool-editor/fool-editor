@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -15,19 +14,25 @@ import javafx.stage.Stage;
 
 public class FoolContext {
 
+    private static String workPath;
+
     private static Stage stage;
 
     private static Scene scene;
 
-    private static Map<String, Map<String, Object>> pluginData = new HashMap<>();
+    private static Map<String, Map<String, Object>> moduleData = new HashMap<>();
 
-    private static PluginManage pluginManage = new PluginManage();
+    private static ModuleManage moduleManage = new ModuleManage();
 
     private static MenuBar menu = new MenuBar();
 
     private static SplitPane main = new SplitPane();
 
     private static SplitPane body = new SplitPane();
+
+    private static TabPane bodyTop = new TabPane();
+
+    private static TabPane bodyDown = new TabPane();
 
     private static SplitPane left = new SplitPane();
 
@@ -39,8 +44,8 @@ public class FoolContext {
 
     private static boolean b = false;
 
-    public static PluginManage getPluginManage() {
-        return pluginManage;
+    public static ModuleManage getModuleManage() {
+        return moduleManage;
     }
 
     static {
@@ -51,6 +56,8 @@ public class FoolContext {
         left.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
         right.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
         body.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
+
+        body.getItems().addAll(bodyTop, bodyDown);
 
      
         //left.setPrefWidth(200);
@@ -84,6 +91,8 @@ public class FoolContext {
 
     }
 
+    
+
     public static Stage getStage() {
         return stage;
     }
@@ -100,16 +109,16 @@ public class FoolContext {
         FoolContext.scene = scene;
     }
 
-    public static Map<String, Map<String, Object>> getPluginData() {
-        return pluginData;
+    public static Map<String, Map<String, Object>> getModuleData() {
+        return moduleData;
     }
 
-    public static void setPluginData(Map<String, Map<String, Object>> pluginData) {
-        FoolContext.pluginData = pluginData;
+    public static void setModuleData(Map<String, Map<String, Object>> moduleData) {
+        FoolContext.moduleData = moduleData;
     }
 
-    public static void setPluginManage(PluginManage pluginManage) {
-        FoolContext.pluginManage = pluginManage;
+    public static void setModuleManage(ModuleManage moduleManage) {
+        FoolContext.moduleManage = moduleManage;
     }
 
     public static MenuBar getMenu() {
@@ -126,14 +135,6 @@ public class FoolContext {
 
     public static void setMain(SplitPane main) {
         FoolContext.main = main;
-    }
-
-    public static SplitPane getBody() {
-        return body;
-    }
-
-    public static void setBody(SplitPane body) {
-        FoolContext.body = body;
     }
 
     public static SplitPane getLeft() {
@@ -167,6 +168,40 @@ public class FoolContext {
     public static void setTabDown(TabPane tabDown) {
         FoolContext.tabDown = tabDown;
     }
+
+    public static String getWorkPath() {
+        return workPath;
+    }
+
+    public static void setWorkPath(String workPath) {
+        FoolContext.workPath = workPath;
+    }
+
+    public static boolean isB() {
+        return b;
+    }
+
+    public static void setB(boolean b) {
+        FoolContext.b = b;
+    }
+
+    public static TabPane getBodyTop() {
+        return bodyTop;
+    }
+
+    public static void setBodyTop(TabPane bodyTop) {
+        FoolContext.bodyTop = bodyTop;
+    }
+
+    public static TabPane getBodyDown() {
+        return bodyDown;
+    }
+
+    public static void setBodyDown(TabPane bodyDown) {
+        FoolContext.bodyDown = bodyDown;
+    }
+
+    
 
     
 

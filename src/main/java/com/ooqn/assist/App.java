@@ -1,10 +1,10 @@
 package com.ooqn.assist;
 
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.plugin.ConsolePlugin;
-import com.ooqn.assist.plugin.ExplorerPlugin;
-import com.ooqn.assist.plugin.FileMenuPlugin;
-import com.ooqn.assist.plugin.ToolPlugin;
+import com.ooqn.assist.module.ConsoleModule;
+import com.ooqn.assist.module.ExplorerModule;
+import com.ooqn.assist.module.FileMenuModule;
+import com.ooqn.assist.module.ToolModule;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -17,7 +17,7 @@ public class App extends Application {
         stage.setTitle("fool-editor");
         stage.setScene(FoolContext.getScene());
         initEditor();
-        initPlugin();
+        initModule();
         // 设置窗口最大化
         stage.setMaximized(true);
         stage.show();
@@ -32,11 +32,10 @@ public class App extends Application {
     /**
      * 初始化所有插件
      */
-    public static void initPlugin(){
-        FoolContext.getPluginManage().addPlugin(new ExplorerPlugin());
-        FoolContext.getPluginManage().addPlugin(new ToolPlugin());
-        FoolContext.getPluginManage().addPlugin(new ConsolePlugin());
-        FoolContext.getPluginManage().addPlugin(new FileMenuPlugin());
+    public static void initModule(){
+        FoolContext.getModuleManage().addModule(new ToolModule());
+        FoolContext.getModuleManage().addModule(new ConsoleModule());
+        FoolContext.getModuleManage().addModule(new FileMenuModule());
     }
 
     public static void run(String[] args) {

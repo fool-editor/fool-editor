@@ -3,9 +3,9 @@ package com.ooqn.assist.core;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface Plugin {
+public interface Module {
 
-    HashMap<String, Object> pluginData = new HashMap<String,Object>();
+    HashMap<String, Object> moduleData = new HashMap<String,Object>();
     
     /**
      * 插件可以查看的文件格式 ， 插件的注入菜单

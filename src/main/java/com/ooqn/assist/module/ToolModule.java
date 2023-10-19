@@ -1,24 +1,23 @@
-package com.ooqn.assist.plugin;
+package com.ooqn.assist.module;
 
 import java.util.Map;
 
-import com.ooqn.assist.core.Plugin;
+import com.ooqn.assist.core.Module;
 
-public class ConsolePlugin implements Plugin {
+public class ToolModule implements Module {
 
     @Override
     public void init() {
-        
+
     }
 
     @Override
     public void destroy() {
-        
+
     }
 
     @Override
     public Map<String, Object> getData() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getData'");
     }
 }
