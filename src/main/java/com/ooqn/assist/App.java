@@ -1,10 +1,10 @@
 package com.ooqn.assist;
 
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.module.ConsoleModule;
-import com.ooqn.assist.module.ExplorerModule;
-import com.ooqn.assist.module.FileMenuModule;
-import com.ooqn.assist.module.ToolModule;
+import com.ooqn.assist.modules.ConsoleModule;
+import com.ooqn.assist.modules.FileMenuModule;
+import com.ooqn.assist.modules.JmeModule;
+import com.ooqn.assist.modules.ToolModule;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -35,6 +35,7 @@ public class App extends Application {
     public static void initModule(){
         FoolContext.getModuleManage().addModule(new ToolModule());
         FoolContext.getModuleManage().addModule(new ConsoleModule());
+        FoolContext.getModuleManage().addModule(new JmeModule());
         FoolContext.getModuleManage().addModule(new FileMenuModule());
     }
 

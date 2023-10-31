@@ -1,4 +1,4 @@
-package com.ooqn.assist.module;
+package com.ooqn.assist.modules;
 
 import java.io.File;
 import java.util.Arrays;

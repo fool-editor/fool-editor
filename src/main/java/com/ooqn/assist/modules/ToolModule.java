@@ -1,17 +1,14 @@
-package com.ooqn.assist.module;
+package com.ooqn.assist.modules;
 
 import java.util.Map;
 
-import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.core.FoolTab;
 import com.ooqn.assist.core.Module;
 
-public class ConsoleModule implements Module {
+public class ToolModule implements Module {
 
     @Override
     public void init() {
-        FoolTab foolTab = new FoolTab("Console");
-        FoolContext.getBodyDown().getTabs().add(foolTab);
+
     }
 
     @Override

@@ -10,7 +10,7 @@ java {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls','javafx.graphics','javafx.web' ]
+    modules = [ 'javafx.controls','javafx.graphics','javafx.web','javafx.swing' ]
 }
 
 ext.jmonkeyengineVersion = '3.6.1-stable'
@@ -22,6 +22,11 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:32.1.2-jre'
+    implementation "org.jmonkeyengine:jme3-core:3.6.0-stable"
+    // implementation "org.jmonkeyengine:jme3-desktop:3.6.0-stable"
+    implementation 'org.jmonkeyengine:jme3-lwjgl:3.6.0-stable'
+
+
 }
 
 application {
