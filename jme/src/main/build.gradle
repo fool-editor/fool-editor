@@ -16,15 +16,17 @@ javafx {
 ext.jmonkeyengineVersion = '3.6.1-stable'
 
 repositories {
-    maven { url 'https://maven.aliyun.com/repository/public/' }
-    mavenCentral()
-}
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+
+    }
 
 dependencies {
     implementation 'com.google.guava:guava:32.1.2-jre'
-    implementation "org.jmonkeyengine:jme3-core:3.6.0-stable"
-    // implementation "org.jmonkeyengine:jme3-desktop:3.6.0-stable"
-    implementation 'org.jmonkeyengine:jme3-lwjgl:3.6.0-stable'
+    implementation "com.github.JohnLKkk.jmonkeyengine:jme3-core:3.6.1-stable"
+    implementation 'com.github.JohnLKkk.jmonkeyengine:jme3-lwjgl:3.6.1-stable'
+    implementation 'com.github.JohnLKkk.jmonkeyengine:jme3-android:v3.6.1-stable'
 
 
 }

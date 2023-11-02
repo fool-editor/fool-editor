@@ -1,2 +1,4 @@
 rootProject.name = 'GameAssist'
 
+include('editor')
+include('jme')

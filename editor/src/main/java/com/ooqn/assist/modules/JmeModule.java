@@ -1,6 +1,7 @@
 package com.ooqn.assist.modules;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.jme3.app.FlyCamAppState;
 import com.jme3.app.StatsAppState;
@@ -15,11 +16,7 @@ import com.ooqn.assist.modules.jme.SimpleJfxApplication;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 public class JmeModule implements Module{
 
