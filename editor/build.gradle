@@ -1,4 +1,5 @@
 plugins {
+    id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
@@ -10,27 +11,22 @@ java {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls','javafx.graphics','javafx.web','javafx.swing' ]
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.web', 'javafx.swing']
 }
 
-ext.jmonkeyengineVersion = '3.6.1-stable'
 
 repositories {
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://maven.aliyun.com/repository/public/' }
-
-    }
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+}
 
 dependencies {
     implementation 'com.google.guava:guava:32.1.2-jre'
-    implementation "com.github.JohnLKkk.jmonkeyengine:jme3-core:3.6.1-stable"
-    implementation 'com.github.JohnLKkk.jmonkeyengine:jme3-lwjgl:3.6.1-stable'
-    implementation 'com.github.JohnLKkk.jmonkeyengine:jme3-android:v3.6.1-stable'
-
-    api project(':jme')
-
-
+    implementation "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
+    implementation "${jmonkeyengineGroup}:jme3-lwjgl:${jmonkeyengineVersion}"
+    implementation "${jmonkeyengineGroup}:jme3-android:${jmonkeyengineVersion}"
+    implementation project(':jme')
 }
 
 application {
