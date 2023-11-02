@@ -1,4 +1,5 @@
-rootProject.name = 'GameAssist'
+rootProject.name = 'FoolEditor'
 
-include('jme')
-include('editor')
+include('fool-core')
+include('fool-jme')
+include('fool-app')

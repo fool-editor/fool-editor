@@ -6,5 +6,6 @@
         "PATH": "${env:PATH}"
     },
     "maven.terminal.customEnv": [],
-    "java.project.sourcePaths": []
+    "java.project.sourcePaths": [],
+    "java.debug.settings.onBuildFailureProceed": true
 }
