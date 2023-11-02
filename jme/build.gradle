@@ -1,4 +1,6 @@
 plugins {
+    id 'java'
+    id 'java-library'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
@@ -24,11 +26,9 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:32.1.2-jre'
-    implementation "com.github.JohnLKkk.jmonkeyengine:jme3-core:3.6.1-stable"
-    implementation 'com.github.JohnLKkk.jmonkeyengine:jme3-lwjgl:3.6.1-stable'
-    implementation 'com.github.JohnLKkk.jmonkeyengine:jme3-android:v3.6.1-stable'
-
-
+    implementation "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
+    implementation "${jmonkeyengineGroup}:jme3-lwjgl:${jmonkeyengineVersion}"
+    implementation "${jmonkeyengineGroup}:jme3-android:${jmonkeyengineVersion}"
 }
 
 application {
