@@ -1,0 +1,20 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
+	implementation "${jmonkeyengineGroup}:jme3-desktop:${jmonkeyengineVersion}"
+}
+
