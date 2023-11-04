@@ -1,4 +1,4 @@
-package com.ooqn.core.project.gradle;
+package com.ooqn.assist.project.gradle;
 
 import com.ooqn.core.project.Project;
 

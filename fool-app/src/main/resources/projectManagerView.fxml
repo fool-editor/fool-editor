@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="rootAnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooqn.assist.view.ProjectManagerViewController">
+    <children>
+        <Button fx:id="creatProjectButton" layoutX="486.0" layoutY="25.0" mnemonicParsing="false"
+                onMouseClicked="#onBeginCreatProjectButtonClicked" text="新建项目" AnchorPane.rightAnchor="50.0"
+                AnchorPane.topAnchor="25.0"/>
+        <ScrollPane fx:id="projectsScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="404.0"
+                    AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+                    AnchorPane.topAnchor="50.0">
+            <content>
+                <VBox fx:id="vBox" maxWidth="30000.0" prefWidth="494.0"/>
+            </content>
+        </ScrollPane>
+        <AnchorPane fx:id="creatProjectAnchorPane" visible="false" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0"
+                    AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <children>
+                <Label layoutX="14.0" layoutY="31.0" text="项目路径:">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="projectPathTextField" layoutX="97.0" layoutY="31.0" prefHeight="23.0"
+                           prefWidth="363.0" text="" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="40.0"/>
+                <Button fx:id="projectPathButton" layoutX="265.0" layoutY="31.0" text="..."
+                        AnchorPane.rightAnchor="10.0"/>
+
+                <Label layoutX="14.0" layoutY="60.0" text="项目名称：">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="projectNameTextField" layoutX="96.0" layoutY="60.0" text="example"
+                           AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="40.0"/>
+
+                <Label layoutX="14.0" layoutY="90.0" text="groupId：">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="projectGroupIdTextField" layoutX="96.0" layoutY="90.0" text="com.example"
+                           AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="40.0"/>
+                <Button onMouseClicked="#onCreatProjectButtonClicked" layoutX="395.0" layoutY="263.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="91.0"
+                        text="确定" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0"/>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
