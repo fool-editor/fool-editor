@@ -11,7 +11,7 @@ java {
 
 javafx {
     version = "17"
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.web', 'javafx.swing']
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.swing']
 }
 
 
@@ -26,6 +26,7 @@ dependencies {
     implementation "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
     implementation "${jmonkeyengineGroup}:jme3-lwjgl:${jmonkeyengineVersion}"
     implementation "${jmonkeyengineGroup}:jme3-android:${jmonkeyengineVersion}"
+    implementation 'cn.hutool:hutool-core:5.8.16'
     implementation project(':fool-core')
     implementation project(':fool-jme')
 }

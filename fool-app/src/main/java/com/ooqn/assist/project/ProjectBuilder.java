@@ -1,7 +1,8 @@
-package com.ooqn.core.project;
+package com.ooqn.assist.project;
 
 import cn.hutool.core.io.FileUtil;
-import com.ooqn.core.project.gradle.GradleProject;
+import com.ooqn.assist.project.gradle.GradleProject;
+import com.ooqn.core.project.Project;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +43,4 @@ public class ProjectBuilder {
         return new GradleProject(projectDir);
     }
 
-    public static void main(String[] args) throws IOException {
-        Project project = creatProject(new File("./build"), "test", "cn.donting");
-
-    }
 }

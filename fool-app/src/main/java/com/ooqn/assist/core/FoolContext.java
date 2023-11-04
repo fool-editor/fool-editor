@@ -3,6 +3,7 @@ package com.ooqn.assist.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ooqn.assist.view.MainViewController;
 import com.ooqn.core.ComponentManage;
 
 import javafx.scene.Scene;
@@ -54,6 +55,7 @@ public class FoolContext {
 
         createFloot = new HBox(new Label("hello"));
         createFloot.setPrefHeight(50);
+        createFloot.setMaxHeight(50);
 
         left.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
         right.setOrientation(javafx.geometry.Orientation.VERTICAL); // 设置为垂直分割
@@ -203,8 +205,9 @@ public class FoolContext {
         FoolContext.bodyDown = bodyDown;
     }
 
-    
 
-    
+    public static void init(MainViewController controller) {
+        bodyTop=controller.bodyMainTabPane;
 
+    }
 }
