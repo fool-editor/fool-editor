@@ -103,7 +103,7 @@ public class ProjectManagerViewController implements Initializable {
             //在FXMLLoader 加载之前先 初始化FoolContext
             fxmlLoader.setControllerFactory(param -> {
                 try {
-                    MainViewController mainViewController = (MainViewController)param.newInstance();
+                    MainViewController mainViewController = (MainViewController)param.getDeclaredConstructor().newInstance();
                     FoolContext.init(project, mainViewController);
                     return mainViewController;
                 } catch (Exception e) {
