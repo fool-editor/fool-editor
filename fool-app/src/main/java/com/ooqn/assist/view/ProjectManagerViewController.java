@@ -96,6 +96,7 @@ public class ProjectManagerViewController implements Initializable {
         stage.close();
 
         Stage newStage = new Stage();
+        newStage.setMaximized(true);
         newStage.setTitle("fool-editor");
         try {
             // 加载FXML文件

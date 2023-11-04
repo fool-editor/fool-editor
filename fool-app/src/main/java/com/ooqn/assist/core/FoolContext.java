@@ -17,6 +17,6 @@ public class FoolContext {
     }
 
     public static TabPane getBodyTop() {
-       return foolContextInitializable.getBodyTop();
+       return foolContextInitializable.getEditor();
     }
 }

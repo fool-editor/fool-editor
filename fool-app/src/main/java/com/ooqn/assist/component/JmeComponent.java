@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.jme3.app.FlyCamAppState;
 import com.jme3.app.StatsAppState;
 import com.jme3.audio.AudioListenerState;
+import com.jme3.renderer.Camera;
 import com.jme3.system.AppSettings;
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.core.FoolTab;
@@ -33,7 +34,7 @@ public class JmeComponent implements Component{
     @Override
     public void init() {
 
-         // We need to start JME on a new thread, not on the JFX thread.
+        // We need to start JME on a new thread, not on the JFX thread.
         // We could do this a million ways, but let's just be as safe as possible.
         AtomicReference<SimpleJfxApplication> jfxApp = new AtomicReference<>();
 
@@ -44,6 +45,7 @@ public class JmeComponent implements Component{
                     new AudioListenerState(),
                     new FlyCamAppState()
             );
+            
             AppSettings appSettings = myJmeGame.getSettings();
             // set our appSettings here
             
@@ -57,28 +59,22 @@ public class JmeComponent implements Component{
 
         }, "LWJGL Render").start();
             
-        // wait for the engine to initialize...
-        // You can show some kind of indeterminate progress bar in a splash screen while you wait if you like...|| !jfxApp.get().isInitialized()
+      
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         while (jfxApp.get() == null ) {
             System.err.println(jfxApp.get().isInitialized());
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
 
-        // The application is never going to change from hereon in, so we can just reference the actual value.
-        // Just remember that any calls to JME need to be enqueued from app.enqueue(Runnable) if you are not on the JME
-        // thread (e.g. you're on the JavaFX thread). Any calls to JavaFx need to be done on the JavaFX thread, or via
-        // Plaform.runLater(Runnable).
         SimpleJfxApplication app = jfxApp.get();
 
        
@@ -88,17 +84,16 @@ public class JmeComponent implements Component{
         BorderPane pane = new BorderPane(imageView);
         foolTab.setContent(pane);
 
-        
 
+        // 监听宽度发送时修改JME的宽度
         pane.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                imageView.resize(newValue.doubleValue(), pane.getWidth());
                System.out.println(newValue.doubleValue());
-              
             }
         });
-
+        // 监听高度发送时修改JME的高度
         pane.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
