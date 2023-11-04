@@ -40,7 +40,7 @@ public class ProjectBuilder {
         testJava.mkdirs();
         File testResources=new File(project,"src/test/resources");
         testResources.mkdirs();
-        return new GradleProject(projectDir);
+        return new GradleProject(project);
     }
 
 }
