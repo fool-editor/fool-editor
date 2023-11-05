@@ -1,6 +1,9 @@
 package com.ooqn.assist.view;
 
 import cn.hutool.core.io.file.PathUtil;
+import com.jme3.app.FlyCamAppState;
+import com.jme3.app.StatsAppState;
+import com.jme3.audio.AudioListenerState;
 import com.ooqn.assist.App2;
 import com.ooqn.assist.component.JmeComponent;
 import com.ooqn.assist.core.EditorSaveData;
@@ -11,6 +14,7 @@ import com.ooqn.assist.handel.AlertHandel;
 import com.ooqn.assist.project.ProjectBuilder;
 import com.ooqn.assist.project.gradle.GradleProject;
 import com.ooqn.core.project.Project;
+import com.ooqn.modules.SimpleJfxApplication;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -105,7 +109,12 @@ public class ProjectManagerViewController implements Initializable {
             //在FXMLLoader 加载之前先 初始化FoolContext
             fxmlLoader.setControllerFactory(param -> {
                 try {
-                    MainViewController mainViewController = (MainViewController)param.getDeclaredConstructor().newInstance();
+                    SimpleJfxApplication simpleJfxApplication =  new SimpleJfxApplication(
+                            new StatsAppState(),
+                            new AudioListenerState(),
+                            new FlyCamAppState()
+                    );
+                    MainViewController mainViewController=new MainViewController(simpleJfxApplication);
                     FoolContext.init(project, mainViewController);
                     return mainViewController;
                 } catch (Exception e) {

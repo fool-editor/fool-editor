@@ -36,45 +36,21 @@ public class JmeComponent implements Component{
 
         // We need to start JME on a new thread, not on the JFX thread.
         // We could do this a million ways, but let's just be as safe as possible.
-        SimpleJfxApplication jfxApp = new SimpleJfxApplication(
-                new StatsAppState(),
-                new AudioListenerState(),
-                new FlyCamAppState()
-        );
-        AppSettings appSettings = jfxApp.getSettings();
-        // set our appSettings here
-        appSettings.setUseJoysticks(true);
-        appSettings.setGammaCorrection(true);
-        appSettings.setSamples(16);
 
-        new Thread(new ThreadGroup("LWJGL"), () -> {
-            jfxApp.start();
-        }, "LWJGL Render").start();
 
         FoolTab foolTab = new FoolTab("JME");
         FoolContext.getBodyTop().getTabs().add(foolTab);
-        EditorFxImageView imageView = jfxApp.getImageView();
+        EditorFxImageView imageView = FoolContext.getSimpleJfxApplication().getImageView();
         BorderPane pane = new BorderPane(imageView);
         foolTab.setContent(pane);
-
         // 监听宽度发送时修改JME的宽度
-        pane.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-               imageView.resize(newValue.doubleValue(), pane.getWidth());
-               System.out.println(newValue.doubleValue());
-            }
+        pane.widthProperty().addListener((observable, oldValue, newValue) -> {
+           imageView.resize(newValue.doubleValue(), pane.getWidth());
+           System.out.println(newValue.doubleValue());
         });
         // 监听高度发送时修改JME的高度
-        pane.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                imageView.resize(pane.getHeight(), newValue.doubleValue());
-            }
-        });
+        pane.heightProperty().addListener((observable, oldValue, newValue) -> imageView.resize(pane.getHeight(), newValue.doubleValue()));
 
-        
-        
     }
     
 }

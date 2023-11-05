@@ -9,6 +9,7 @@ import com.ooqn.assist.core.FoolContextInitializable;
 
 import com.ooqn.assist.fx.control.FileTreeItem;
 import com.ooqn.core.project.Project;
+import com.ooqn.modules.SimpleJfxApplication;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,6 +52,13 @@ public class MainViewController implements Initializable, FoolContextInitializab
 
     @FXML
     public TreeView fileTree;
+
+
+    private final SimpleJfxApplication simpleJfxApplication;
+
+    public MainViewController(SimpleJfxApplication simpleJfxApplication) {
+        this.simpleJfxApplication = simpleJfxApplication;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -119,5 +127,10 @@ public class MainViewController implements Initializable, FoolContextInitializab
     @Override
     public TabPane getPanel() {
         return panelPane;
+    }
+
+    @Override
+    public SimpleJfxApplication getSimpleJfxApplication() {
+        return simpleJfxApplication;
     }
 }

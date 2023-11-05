@@ -2,6 +2,7 @@ package com.ooqn.assist.core;
 
 
 import com.ooqn.core.project.Project;
+import com.ooqn.modules.SimpleJfxApplication;
 import javafx.scene.control.TabPane;
 import lombok.Getter;
 
@@ -22,5 +23,8 @@ public class FoolContext {
        return foolContextInitializable.getEditor();
     }
 
+    public static SimpleJfxApplication getSimpleJfxApplication(){
+        return foolContextInitializable.getSimpleJfxApplication();
+    }
 
 }
