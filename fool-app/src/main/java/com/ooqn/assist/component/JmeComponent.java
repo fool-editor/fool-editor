@@ -39,8 +39,8 @@ public class JmeComponent implements Component{
 
 
         FoolTab foolTab = new FoolTab("JME");
-        FoolContext.getBodyTop().getTabs().add(foolTab);
-        EditorFxImageView imageView = FoolContext.getSimpleJfxApplication().getImageView();
+        FoolContext.getFoolContextWindow().getTabPane3().getTabs().add(foolTab);
+        EditorFxImageView imageView = FoolContext.getFoolContextWindow().getSimpleJfxApplication().getImageView();
         BorderPane pane = new BorderPane(imageView);
         foolTab.setContent(pane);
         // 监听宽度发送时修改JME的宽度
