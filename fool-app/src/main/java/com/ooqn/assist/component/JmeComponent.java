@@ -36,54 +36,26 @@ public class JmeComponent implements Component{
 
         // We need to start JME on a new thread, not on the JFX thread.
         // We could do this a million ways, but let's just be as safe as possible.
-        AtomicReference<SimpleJfxApplication> jfxApp = new AtomicReference<>();
+        SimpleJfxApplication jfxApp = new SimpleJfxApplication(
+                new StatsAppState(),
+                new AudioListenerState(),
+                new FlyCamAppState()
+        );
+        AppSettings appSettings = jfxApp.getSettings();
+        // set our appSettings here
+        appSettings.setUseJoysticks(true);
+        appSettings.setGammaCorrection(true);
+        appSettings.setSamples(16);
 
         new Thread(new ThreadGroup("LWJGL"), () -> {
-
-            SimpleJfxApplication myJmeGame = new SimpleJfxApplication(
-                    new StatsAppState(),
-                    new AudioListenerState(),
-                    new FlyCamAppState()
-            );
-            
-            AppSettings appSettings = myJmeGame.getSettings();
-            // set our appSettings here
-            
-            appSettings.setUseJoysticks(true);
-            appSettings.setGammaCorrection(true);
-            appSettings.setSamples(16);
-
-            jfxApp.set(myJmeGame);
-
-            jfxApp.get().start();
-
+            jfxApp.start();
         }, "LWJGL Render").start();
-            
-      
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        while (jfxApp.get() == null ) {
-            System.err.println(jfxApp.get().isInitialized());
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        SimpleJfxApplication app = jfxApp.get();
-
-       
         FoolTab foolTab = new FoolTab("JME");
         FoolContext.getBodyTop().getTabs().add(foolTab);
-        EditorFxImageView imageView = app.getImageView();
+        EditorFxImageView imageView = jfxApp.getImageView();
         BorderPane pane = new BorderPane(imageView);
         foolTab.setContent(pane);
-
 
         // 监听宽度发送时修改JME的宽度
         pane.widthProperty().addListener(new ChangeListener<Number>() {
