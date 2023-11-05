@@ -27,7 +27,7 @@
                 </Label>
                 <TextField fx:id="projectPathTextField" layoutX="97.0" layoutY="31.0" prefHeight="23.0"
                            prefWidth="363.0" text="" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="40.0"/>
-                <Button fx:id="projectPathButton" layoutX="265.0" layoutY="31.0" text="..."
+                <Button fx:id="projectPathButton" onMouseClicked="#selectProjectPath" layoutX="265.0" layoutY="31.0" text="..."
                         AnchorPane.rightAnchor="10.0"/>
 
                 <Label layoutX="14.0" layoutY="60.0" text="项目名称：">
