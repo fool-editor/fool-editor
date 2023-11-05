@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
@@ -96,7 +97,7 @@ public class ProjectManagerViewController implements Initializable {
         stage.close();
 
         Stage newStage = new Stage();
-        newStage.setMaximized(true);
+//        newStage.setMaximized(true);
         newStage.setTitle("fool-editor");
         try {
             // 加载FXML文件
@@ -159,5 +160,14 @@ public class ProjectManagerViewController implements Initializable {
             creatProjectAnchorPane.setVisible(true);
             projectsScrollPane.setVisible(false);
         }
+    }
+
+    public void selectProjectPath(MouseEvent mouseEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("选择项目路径");
+        // Show the folder chooser dialog
+        Stage stage = (Stage) projectGroupIdTextField.getScene().getWindow();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+        projectPathTextField.setText(selectedDirectory.getPath());
     }
 }
