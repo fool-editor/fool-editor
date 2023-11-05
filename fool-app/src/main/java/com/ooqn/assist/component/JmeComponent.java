@@ -36,73 +36,21 @@ public class JmeComponent implements Component{
 
         // We need to start JME on a new thread, not on the JFX thread.
         // We could do this a million ways, but let's just be as safe as possible.
-        AtomicReference<SimpleJfxApplication> jfxApp = new AtomicReference<>();
 
-        new Thread(new ThreadGroup("LWJGL"), () -> {
 
-            SimpleJfxApplication myJmeGame = new SimpleJfxApplication(
-                    new StatsAppState(),
-                    new AudioListenerState(),
-                    new FlyCamAppState()
-            );
-            
-            AppSettings appSettings = myJmeGame.getSettings();
-            // set our appSettings here
-            
-            appSettings.setUseJoysticks(true);
-            appSettings.setGammaCorrection(true);
-            appSettings.setSamples(16);
-
-            jfxApp.set(myJmeGame);
-
-            jfxApp.get().start();
-
-        }, "LWJGL Render").start();
-            
-      
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        while (jfxApp.get() == null ) {
-            System.err.println(jfxApp.get().isInitialized());
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        SimpleJfxApplication app = jfxApp.get();
-
-       
         FoolTab foolTab = new FoolTab("JME");
         FoolContext.getBodyTop().getTabs().add(foolTab);
-        EditorFxImageView imageView = app.getImageView();
+        EditorFxImageView imageView = FoolContext.getSimpleJfxApplication().getImageView();
         BorderPane pane = new BorderPane(imageView);
         foolTab.setContent(pane);
-
-
         // 监听宽度发送时修改JME的宽度
-        pane.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-               imageView.resize(newValue.doubleValue(), pane.getWidth());
-               System.out.println(newValue.doubleValue());
-            }
+        pane.widthProperty().addListener((observable, oldValue, newValue) -> {
+           imageView.resize(newValue.doubleValue(), pane.getWidth());
+           System.out.println(newValue.doubleValue());
         });
         // 监听高度发送时修改JME的高度
-        pane.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                imageView.resize(pane.getHeight(), newValue.doubleValue());
-            }
-        });
+        pane.heightProperty().addListener((observable, oldValue, newValue) -> imageView.resize(pane.getHeight(), newValue.doubleValue()));
 
-        
-        
     }
     
 }

@@ -35,9 +35,10 @@ public class SimpleJfxApplication extends SimpleApplication {
 
     public SimpleJfxApplication(AppState... initialStates) {
         super(initialStates);
-
-        jmeThread = Thread.currentThread();
-
+        jmeThread = new Thread(new ThreadGroup("LWJGL"), () -> {
+            start();
+        }, "LWJGL Render");
+        imageView = new EditorFxImageView();
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
 
@@ -50,6 +51,7 @@ public class SimpleJfxApplication extends SimpleApplication {
 
         createCanvas();
 
+        jmeThread.start();
     }
 
     public void start() {
@@ -61,7 +63,6 @@ public class SimpleJfxApplication extends SimpleApplication {
 
     private void initJavaFxImage() {
 
-        imageView = new EditorFxImageView();
         imageView.getProperties().put(JfxMouseInput.PROP_USE_LOCAL_COORDS, true);
         // imageView.setMouseTransparent(true);
         imageView.setFocusTraversable(true);

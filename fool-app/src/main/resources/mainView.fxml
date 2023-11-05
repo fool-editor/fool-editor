@@ -106,7 +106,7 @@
       </SplitPane>
       <Pane prefHeight="15.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label text="Label" />
+            <Label  text="Label" />
          </children>
       </Pane>
    </children>

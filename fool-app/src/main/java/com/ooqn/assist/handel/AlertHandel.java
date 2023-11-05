@@ -12,6 +12,7 @@ import java.io.StringWriter;
 public class AlertHandel {
 
     public static void exceptionHandel(Exception ex) {
+        ex.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Exception Dialog");
         alert.setHeaderText(null);
