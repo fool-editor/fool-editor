@@ -398,7 +398,7 @@ public abstract class AbstractFrameTransferSceneProcessor<T extends Node> implem
         }
 
         // JfxPlatform.runInFxThread(this::unbindDestination);
-        Platform.runLater(this::unbindDestination);
+        this.unbindDestination();
     }
 
     /**

@@ -40,6 +40,7 @@ public interface Project {
      * 清理缓存
      */
     void clear();
+    void compile();
 
     /**
      * 打包项目为桌面

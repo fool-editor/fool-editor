@@ -1,4 +1,4 @@
-package com.ooqn.assist.fx.control;
+package com.ooqn.assist.fx.control.filetree;
 
 import javafx.scene.control.TreeItem;
 

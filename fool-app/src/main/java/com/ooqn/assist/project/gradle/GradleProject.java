@@ -40,6 +40,10 @@ public class GradleProject implements Project {
     public void clear() {
         throw new UnsupportedOperationException("clear");
     }
+    @Override
+    public void compile() {
+        throw new UnsupportedOperationException("compile");
+    }
 
     @Override
     public void packageDesktop() {

@@ -2,15 +2,23 @@ package com.ooqn.assist.tab;
 
 import cn.hutool.core.io.FileUtil;
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.fx.control.FileTreeItem;
+import com.ooqn.assist.fx.control.filetree.FileShowMenuItem;
+import com.ooqn.assist.fx.control.filetree.FileTreeItem;
+import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.assist.util.SvgUtil;
+import com.ooqn.core.event.EditorEventBus;
+import com.ooqn.core.event.OpenFileEvent;
 import com.ooqn.core.project.Project;
+import com.ooqn.core.scene.EditorScene;
+import javafx.beans.InvalidationListener;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.shape.SVGPath;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FileSystemTab extends Tab {
 
@@ -41,9 +49,11 @@ public class FileSystemTab extends Tab {
         ContextMenu contextMenu = new ContextMenu();
         //不知道为什么设置contextMenu 宽度不起作用。
         MenuItem refreshItem = new MenuItem("刷新           ");
+        Menu newItem = new Menu("新建");
+        initNewItem(newItem);
         refreshItem.setGraphic(refresh);
-
         contextMenu.getItems().add(refreshItem);
+        contextMenu.getItems().add(newItem);
         refreshItem.setOnAction(event -> {
             Object selectedItem = treeView.getSelectionModel().getSelectedItem();
             if (selectedItem instanceof FileTreeItem) {
@@ -51,9 +61,23 @@ public class FileSystemTab extends Tab {
                 loopFileTree((FileTreeItem) selectedItem);
             }
         });
+        treeView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+                FileTreeItem treeViewSelected = getTreeViewSelected();
+                if (treeViewSelected.file.isFile()) {
+                    OpenFileEvent openFileEvent = new OpenFileEvent(treeViewSelected.file);
+                    EditorEventBus.editorEventBus.post(openFileEvent);
+                }
+            }
+        });
         treeView.setContextMenu(contextMenu);
         treeView.setShowRoot(false);
         treeView.setRoot(root);
+
+        treeView.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> {
+            FileTreeItem selected = getTreeViewSelected();
+            System.out.println(selected);
+        });
     }
 
     private void loopFileTree(FileTreeItem prentTreeItem) {
@@ -82,5 +106,34 @@ public class FileSystemTab extends Tab {
                 loopFileTree(fileTreeItem);
             }
         }
+    }
+
+    private void initNewItem(Menu newMenu) {
+        FileShowMenuItem scene = new FileShowMenuItem("场景(.scene)       ",false,false);
+        scene.setOnAction(event -> {
+            FileTreeItem treeViewSelected = getTreeViewSelected();
+            EditorScene editorScene = EditorScene.newScene();
+            try {
+                editorScene.save(new File(treeViewSelected.file, "新建场景.scene"));
+                loopFileTree(treeViewSelected);
+            } catch (IOException e) {
+                AlertHandel.exceptionHandel(e);
+            }
+        });
+
+        treeView.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> {
+            FileTreeItem selected = getTreeViewSelected();
+            for (MenuItem item : newMenu.getItems()) {
+                if (item instanceof FileShowMenuItem) {
+                    ((FileShowMenuItem) item).show(selected);
+                }
+            }
+        });
+        newMenu.getItems().add(scene);
+    }
+
+    private FileTreeItem getTreeViewSelected() {
+        Object selectedItem = treeView.getSelectionModel().getSelectedItem();
+        return (FileTreeItem) selectedItem;
     }
 }
