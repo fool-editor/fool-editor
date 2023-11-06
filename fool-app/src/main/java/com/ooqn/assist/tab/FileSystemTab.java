@@ -11,6 +11,7 @@ import com.ooqn.core.event.OpenFileEvent;
 import com.ooqn.core.project.Project;
 import com.ooqn.core.scene.EditorScene;
 import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,11 +46,11 @@ public class FileSystemTab extends Tab {
         root.getChildren().add(srcJavaFileTreeItem);
         root.getChildren().add(resourcesFileTreeItem);
 
-        SVGPath refresh = SvgUtil.getSvg("icon/refresh.svg");
+        Node refresh = SvgUtil.getSvg("icon/refresh.svg");
         ContextMenu contextMenu = new ContextMenu();
         //不知道为什么设置contextMenu 宽度不起作用。
         MenuItem refreshItem = new MenuItem("刷新           ");
-        Menu newItem = new Menu("新建");
+        Menu newItem = new Menu("新建",SvgUtil.getSvg("icon/addFile.svg"));
         initNewItem(newItem);
         refreshItem.setGraphic(refresh);
         contextMenu.getItems().add(refreshItem);

@@ -4,6 +4,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.ooqn.assist.fx.control.TreeItemValue;
 import com.ooqn.core.scene.EditorScene;
+import javafx.scene.Group;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
