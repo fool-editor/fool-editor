@@ -1,4 +1,4 @@
-package com.ooqn.assist.handel;
+package com.ooqn.core.handel;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -10,11 +10,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class AlertHandel {
-
-    public static void exceptionHandel(Exception ex) {
+    public static void exceptionHandel(String title,Exception ex) {
         ex.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Exception Dialog");
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(ex.getLocalizedMessage());
         // Create expandable Exception.
@@ -39,5 +38,8 @@ public class AlertHandel {
 // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
         alert.showAndWait();
+    }
+    public static void exceptionHandel(Exception ex) {
+            exceptionHandel("Exception Dialog",ex);
     }
 }

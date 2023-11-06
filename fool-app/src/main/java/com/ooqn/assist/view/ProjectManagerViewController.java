@@ -8,9 +8,14 @@ import com.ooqn.assist.App2;
 import com.ooqn.assist.core.EditorSaveData;
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.domain.ProjectFile;
-import com.ooqn.assist.handel.AlertHandel;
+import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.assist.project.ProjectBuilder;
 import com.ooqn.assist.project.gradle.GradleProject;
+import com.ooqn.core.event.EditorCloseEvent;
+import com.ooqn.core.event.EditorEventBus;
+import com.ooqn.core.event.OpenProjectEvent;
+import com.ooqn.core.plugin.Plugin;
+import com.ooqn.core.plugin.PluginManager;
 import com.ooqn.core.project.Project;
 import com.ooqn.modules.SimpleJfxApplication;
 import javafx.fxml.FXML;
@@ -25,6 +30,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +39,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Slf4j
 public class ProjectManagerViewController implements Initializable {
 
     @FXML
@@ -52,6 +59,7 @@ public class ProjectManagerViewController implements Initializable {
     TextField projectNameTextField;
     @FXML
     TextField projectGroupIdTextField;
+    private SimpleJfxApplication simpleJfxApplication;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,9 +100,12 @@ public class ProjectManagerViewController implements Initializable {
     private void openProject(Project project) {
         Stage stage = (Stage) projectGroupIdTextField.getScene().getWindow();
         stage.close();
-
+        simpleJfxApplication = new SimpleJfxApplication(
+                new StatsAppState(),
+                new AudioListenerState(),
+                new FlyCamAppState()
+        );
         Stage newStage = new Stage();
-//        newStage.setMaximized(true);
         newStage.setTitle("fool-editor");
         try {
             // 加载FXML文件
@@ -102,12 +113,8 @@ public class ProjectManagerViewController implements Initializable {
             //在FXMLLoader 加载之前先 初始化FoolContext
             fxmlLoader.setControllerFactory(param -> {
                 try {
-                    SimpleJfxApplication simpleJfxApplication =  new SimpleJfxApplication(
-                            new StatsAppState(),
-                            new AudioListenerState(),
-                            new FlyCamAppState()
-                    );
-                    MainViewController mainViewController=new MainViewController(simpleJfxApplication);
+
+                    MainViewController mainViewController = new MainViewController(simpleJfxApplication);
                     FoolContext.init(project, mainViewController);
                     return mainViewController;
                 } catch (Exception e) {
@@ -121,6 +128,28 @@ public class ProjectManagerViewController implements Initializable {
             newStage.setWidth(1200);
             newStage.setHeight(720);
             newStage.show();
+            // 添加窗口关闭事件处理程序
+            newStage.setOnCloseRequest(event -> {
+                log.info("exit....");
+                EditorEventBus.editorEventBus.post(new EditorCloseEvent());
+                for (Plugin plugin : PluginManager.getPlugins()) {
+                    try {
+                        plugin.destroy();
+                    } catch (Exception ex) {
+                        log.warn(ex.getMessage(), ex);
+                    }
+                }
+                try {
+                    simpleJfxApplication.stop(true);
+                } catch (Exception ex) {
+                    log.warn(ex.getMessage(), ex);
+                } finally {
+                    System.exit(0);
+                }
+            });
+
+            OpenProjectEvent openProjectEvent = new OpenProjectEvent(project);
+            EditorEventBus.editorEventBus.post(openProjectEvent);
         } catch (IOException e) {
             AlertHandel.exceptionHandel(e);
         }

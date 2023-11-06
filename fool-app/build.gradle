@@ -32,6 +32,7 @@ dependencies {
     implementation project(':fool-core')
     implementation project(':fool-jme')
 
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
 
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'

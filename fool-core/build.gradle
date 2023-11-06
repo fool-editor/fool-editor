@@ -24,5 +24,15 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:32.1.2-jre'
+    implementation "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
     implementation 'cn.hutool:hutool-core:5.8.16'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+
+
+
 }

@@ -1,6 +1,8 @@
 package com.ooqn.modules;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,25 +13,39 @@ import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
+import com.ooqn.core.EditorJmeApplication;
+import com.ooqn.core.event.EditorEventBus;
+import com.ooqn.core.event.JmeStartCompleteEvent;
+import com.ooqn.core.event.OpenSceneEvent;
+import com.ooqn.core.handel.AlertHandel;
+import com.ooqn.core.scene.EditorScene;
 import com.ooqn.modules.jme.EditorFxImageView;
 import com.ooqn.modules.jme.FrameTransferSceneProcessor;
 import com.ooqn.modules.jme.ImageViewFrameTransferSceneProcessor;
 import com.ooqn.modules.jme.JfxMouseInput;
 import com.ooqn.modules.jme.JmeOffscreenSurfaceContext;
+import javafx.application.Platform;
 
-public class SimpleJfxApplication extends SimpleApplication {
+public class SimpleJfxApplication extends SimpleApplication implements EditorJmeApplication {
 
     private static final Logger log = Logger.getLogger(SimpleJfxApplication.class.getName());
 
     private Thread jmeThread;
-
     private EditorFxImageView imageView;
     private ImageViewFrameTransferSceneProcessor sceneProcessor;
+
+
+    private Node editorNode = new Node("editorNode");
+
+    private EditorScene scene;
+    private File secenFile;
 
     private boolean initialized = false;
 
@@ -68,33 +84,29 @@ public class SimpleJfxApplication extends SimpleApplication {
         imageView.setFocusTraversable(true);
 
         List<ViewPort> vps = renderManager.getPostViews();
-        ViewPort last = vps.get(vps.size()-1);
+        ViewPort last = vps.get(vps.size() - 1);
 
         sceneProcessor = new ImageViewFrameTransferSceneProcessor();
         sceneProcessor.bind(imageView, this, last);
         sceneProcessor.setEnabled(true);
-
         sceneProcessor.setTransferMode(FrameTransferSceneProcessor.TransferMode.ON_CHANGES);
-
-
-
-
-
-        // setView3d();
-
     }
 
     @Override
     public void simpleInitApp() {
+        rootNode.attachChild(editorNode);
         initJavaFxImage();
 
         viewPort.setBackgroundColor(ColorRGBA.Black);
 
-        initialized = true;
 
         log.info("jMonkeyEngine Initialized.");
 
         initApp();
+
+        initialized = true;
+
+        EditorEventBus.editorEventBus.post(new JmeStartCompleteEvent());
     }
 
     public EditorFxImageView getImageView() {
@@ -105,14 +117,23 @@ public class SimpleJfxApplication extends SimpleApplication {
         return initialized;
     }
 
+    @Override
+    public void reBindPostViewPort() {
+        SimpleJfxApplication simpleJfxApplication=this;
+        Platform.runLater(() -> {
+            sceneProcessor.unbind();
+            List<ViewPort> postViews = getRenderManager().getPostViews();
+            sceneProcessor.bind(imageView, simpleJfxApplication, postViews.get(postViews.size() - 1));
+        });
+    }
+
     public boolean isJmeThread() {
         return Thread.currentThread() == jmeThread;
     }
 
-    public AppSettings getSettings() {
-        return settings;
-    }
+
     private Geometry box;
+
     public void initApp() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(6);
@@ -126,7 +147,7 @@ public class SimpleJfxApplication extends SimpleApplication {
 
         Texture texture = assetManager.loadTexture("com/jme3/app/Monkey.png");
 
-        box = new Geometry("Box", new Box(1,1,1));
+        box = new Geometry("Box", new Box(1, 1, 1));
         box.setMaterial(new Material(assetManager, Materials.PBR));
         box.getMaterial().setTexture("BaseColorMap", texture);
         box.getMaterial().setColor("BaseColor", ColorRGBA.White);
@@ -142,5 +163,36 @@ public class SimpleJfxApplication extends SimpleApplication {
         box.rotate(tpf * 1f, tpf * 1f, tpf * 1f);
     }
 
-    
+
+    @Override
+    public Camera getEditorCamera() {
+        return getCamera();
+    }
+
+    @Override
+    public Node getEditorNode() {
+        return editorNode;
+    }
+
+    @Override
+    public EditorScene getScene() {
+        return scene;
+    }
+
+    @Override
+    public void openScene(EditorScene scene, File file) {
+        if(this.scene!=null){
+            try {
+                scene.save(secenFile);
+            } catch (IOException e) {
+                AlertHandel.exceptionHandel("场景保存失败",e);
+                return;
+            }
+            editorNode.detachChild(scene.getSceneNode());
+        }
+        this.scene = scene;
+        this.secenFile=file;
+        editorNode.attachChild(scene.getSceneNode());
+        EditorEventBus.editorEventBus.post(new OpenSceneEvent(scene));
+    }
 }

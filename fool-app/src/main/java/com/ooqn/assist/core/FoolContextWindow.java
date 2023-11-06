@@ -1,5 +1,6 @@
 package com.ooqn.assist.core;
 
+import com.ooqn.core.EditorJmeApplication;
 import com.ooqn.modules.SimpleJfxApplication;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -36,5 +37,5 @@ public interface FoolContextWindow {
     TabPane getTabPane5();
     Label getFooterLabel();
 
-    SimpleJfxApplication getSimpleJfxApplication();
+    EditorJmeApplication getEditorJmeApplication();
 }
