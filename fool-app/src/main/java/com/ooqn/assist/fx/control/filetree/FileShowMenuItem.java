@@ -29,9 +29,9 @@ public class FileShowMenuItem extends MenuItem {
 
     public void show(FileTreeItem fileTreeItem) {
         if (fileTreeItem.java == java && fileTreeItem.file.isFile() == file) {
-            setDisable(false);
+            setVisible(true);
         } else {
-            setDisable(true);
+            setVisible(false);
         }
     }
 }

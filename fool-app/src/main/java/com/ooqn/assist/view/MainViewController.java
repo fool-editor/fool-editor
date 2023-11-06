@@ -51,15 +51,13 @@ public class MainViewController implements Initializable, FoolContextWindow {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        new JmeComponent().init();
-        Platform.runLater(() -> {
-            // 界面渲染后要执行的代码 
-            // 由于Javafx SplitPane 的一些缺陷设置了下面代码，目的是为了让左右两侧的宽度固定。
-            leftPane.setMaxWidth(Double.MAX_VALUE);
-            leftPane.setMinWidth(25);
+        // 界面渲染后要执行的代码
+        // 由于Javafx SplitPane 的一些缺陷设置了下面代码，目的是为了让左右两侧的宽度固定。
+        leftPane.setMaxWidth(Double.MAX_VALUE);
+        leftPane.setMinWidth(25);
 
-            rightPane.setMaxWidth(Double.MAX_VALUE);
-            rightPane.setMinWidth(25);
-        });
+        rightPane.setMaxWidth(Double.MAX_VALUE);
+        rightPane.setMinWidth(25);
     }
 
     @Override

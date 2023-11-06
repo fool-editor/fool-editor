@@ -1,8 +1,6 @@
 package com.ooqn.core.scene;
 
-import com.jme3.export.JmeExporter;
-import com.jme3.export.JmeImporter;
-import com.jme3.export.Savable;
+import com.jme3.export.*;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
@@ -16,7 +14,8 @@ import java.util.List;
 public class EditorScene implements Savable {
     @Getter
     private Node sceneNode;
-    private List<Camera> cameras;
+    @Getter
+    private ArrayList<Camera> cameras;
 
 
     public EditorScene() {
@@ -25,18 +24,23 @@ public class EditorScene implements Savable {
 
     @Override
     public void write(JmeExporter ex) throws IOException {
-
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(sceneNode,"sceneNode",new Node());
+        capsule.writeSavableArrayList(cameras,"cameras",new ArrayList());
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
-
+        InputCapsule capsule = im.getCapsule(this);
+        sceneNode = (Node) capsule.readSavable("sceneNode", new Node());
+        cameras =  capsule.readSavableArrayList("cameras", new ArrayList());
     }
 
 
     public static EditorScene newScene() {
         EditorScene scene = new EditorScene();
-        scene.sceneNode = new Node("sceneNode");
+        scene.sceneNode = new Node("场景根节点");
+        scene.sceneNode.attachChild(new Node("Node"));
         return scene;
     }
 
