@@ -82,6 +82,9 @@ public class FileSystemTab extends Tab {
 
     private void loopFileTree(FileTreeItem prentTreeItem) {
         File prent = prentTreeItem.file;
+        if(prent.isFile()){
+            return;
+        }
         File[] files = prent.listFiles();
         for (File file : files) {
             FileTreeItem fileTreeItem = new FileTreeItem(file, prentTreeItem.java);
