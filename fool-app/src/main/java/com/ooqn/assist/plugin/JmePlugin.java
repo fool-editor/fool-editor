@@ -37,7 +37,7 @@ public class JmePlugin implements Plugin {
         JmeViewTab jmeTab = new JmeViewTab();
         FileSystemTab fileSystemTab = new FileSystemTab();
         FoolContext.getFoolContextWindow().getTabPane2().getTabs().add(fileSystemTab);
-        FoolContext.getFoolContextWindow().getTabPane3().getTabs().add(jmeTab);
+//        FoolContext.getFoolContextWindow().getTabPane3().getTabs().add(jmeTab);
     }
 
     @Subscribe
