@@ -66,7 +66,7 @@ public class FileSystemTab extends Tab {
             if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
                 FileTreeItem treeViewSelected = getTreeViewSelected();
                 if (treeViewSelected.file.isFile()) {
-                    OpenFileEvent openFileEvent = new OpenFileEvent(treeViewSelected.file);
+                    OpenFileEvent openFileEvent = new OpenFileEvent(treeViewSelected.file,treeView);
                     EditorEventBus.editorEventBus.post(openFileEvent);
                 }
             }

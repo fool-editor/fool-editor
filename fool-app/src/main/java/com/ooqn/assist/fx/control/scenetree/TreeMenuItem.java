@@ -2,6 +2,8 @@ package com.ooqn.assist.fx.control.scenetree;
 
 
 import com.ooqn.assist.fx.control.TreeItemValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -21,6 +23,12 @@ public class TreeMenuItem extends MenuItem {
         this.notDisable = notDisable;
     }
 
+    public TreeMenuItem(String text, List<Class> notDisable, EventHandler<ActionEvent> onAction) {
+        super(text);
+        this.notDisable = notDisable;
+        setOnAction(onAction);
+    }
+
     public TreeMenuItem(String text) {
         super(text);
     }
@@ -29,7 +37,8 @@ public class TreeMenuItem extends MenuItem {
         super(text);
         setDisable(disable);
     }
-    public TreeMenuItem(String text, boolean disable,Node graphic) {
+
+    public TreeMenuItem(String text, boolean disable, Node graphic) {
         super(text);
         setDisable(disable);
         setGraphic(graphic);
@@ -39,9 +48,19 @@ public class TreeMenuItem extends MenuItem {
         super(text, graphic);
     }
 
+    public TreeMenuItem(String text, Node graphic, EventHandler<ActionEvent> onAction) {
+        super(text, graphic);
+        setOnAction(onAction);
+    }
+
     public TreeMenuItem(String text, List<Class> notDisable, Node graphic) {
         super(text, graphic);
         this.notDisable = notDisable;
+    }
+    public TreeMenuItem(String text, List<Class> notDisable, Node graphic,EventHandler<ActionEvent> onAction) {
+        super(text, graphic);
+        this.notDisable = notDisable;
+        setOnAction(onAction);
     }
 
 
