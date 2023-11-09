@@ -15,6 +15,7 @@ import com.ooqn.assist.util.SvgUtil;
 import com.ooqn.core.event.EditorEventBus;
 import com.ooqn.core.event.SelectCameraEvent;
 import com.ooqn.core.event.SelectSpatialEvent;
+import com.ooqn.core.event.SpatialNameChangeEvent;
 import com.ooqn.core.scene.EditorScene;
 import com.sun.jdi.connect.ListeningConnector;
 import javafx.collections.ListChangeListener;
@@ -35,6 +36,8 @@ public class SceneTreeView extends TreeView {
     private ContextMenu sceneNodeContextMenu;
     private ContextMenu camerasContextMenu;
     private final Clipboard<TreeItem> clipboard;
+    private TreeItem<TreeItemValue<Spatial>> sceneTreeItem;
+    private TreeItem cameraTreeItem;
 
     public SceneTreeView() {
         clipboard = new Clipboard();
@@ -131,10 +134,10 @@ public class SceneTreeView extends TreeView {
                 value = ((TreeItemValue<?>) value).getValue();
             }
             if (value instanceof Spatial) {
-                EditorEventBus.editorEventBus.post(new SelectSpatialEvent(treeView, (Spatial) value));
+                EditorEventBus.post(new SelectSpatialEvent(treeView, (Spatial) value));
             }
             if (value instanceof Camera) {
-                EditorEventBus.editorEventBus.post(new SelectCameraEvent(treeView, (Camera) value));
+                EditorEventBus.post(new SelectCameraEvent(treeView, (Camera) value));
             }
             if (value == getEditorScene().getSceneNode()) {
                 setContextMenu(sceneRootNodeContextMenu);
@@ -154,30 +157,30 @@ public class SceneTreeView extends TreeView {
 
     private void initEditorScene(EditorScene editorScene) {
         Node sceneNode = editorScene.getSceneNode();
-        TreeItem sceneTreeItem = new TreeItem(new TreeItemValue(sceneNode, "场景根节点(" + sceneNode.getName() + ")"));
+        sceneTreeItem = new TreeItem<>(new TreeItemValue<>(sceneNode, sceneNode.getName() + "(场景根节点)"));
         sceneTreeItem.setGraphic(SvgUtil.getSvg("icon/file/scene.svg"));
-        TreeItem camera = new TreeItem();
-        camera.setGraphic(new Svg("icon/camera.svg"));
-        camera.setValue(new TreeItemValue<>(editorScene.getCameras(), "相机列表"));
+        cameraTreeItem = new TreeItem();
+        cameraTreeItem.setGraphic(new Svg("icon/camera.svg"));
+        cameraTreeItem.setValue(new TreeItemValue<>(editorScene.getCameras(), "相机列表"));
 
         loopNode(sceneNode, sceneTreeItem);
-        cameraList(camera, editorScene);
+        cameraList(cameraTreeItem, editorScene);
 
         TreeItem root = new TreeItem();
         root.getChildren().add(sceneTreeItem);
-        root.getChildren().add(camera);
+        root.getChildren().add(cameraTreeItem);
         setRoot(root);
 
     }
 
 
-    private void loopNode(Node node, TreeItem prent) {
+    private void loopNode(Node node, TreeItem<TreeItemValue<Spatial>> prent) {
         List<Spatial> children = node.getChildren();
         if (prent.getChildren().size() > 0) {
             prent.getChildren().clear();
         }
         for (Spatial child : children) {
-            TreeItem treeItem = new TreeItem(new TreeItemValue(child, child.getName()));
+            TreeItem<TreeItemValue<Spatial>> treeItem = new TreeItem<>(new TreeItemValue<>(child, child.getName()));
             prent.getChildren().add(treeItem);
             if (child instanceof Node) {
                 loopNode((Node) child, treeItem);
@@ -186,23 +189,21 @@ public class SceneTreeView extends TreeView {
     }
 
 
-    private TreeItem getSelectTreeItem() {
-        TreeItem treeItem = (TreeItem) getSelectionModel().getSelectedItem();
-        return treeItem;
+    private <T> TreeItem<TreeItemValue<T>> getSelectTreeItem() {
+        MultipleSelectionModel<TreeItem<TreeItemValue<T>>> selectionModel = getSelectionModel();
+        TreeItem<TreeItemValue<T>> selectedItem = selectionModel.getSelectedItem();
+        return selectedItem;
     }
 
     private <T> T getSelectTreeItemValue() {
-        TreeItem treeItem = (TreeItem) getSelectionModel().getSelectedItem();
-        Object value = treeItem.getValue();
-        if (value instanceof TreeItemValue) {
-            value = ((TreeItemValue<?>) value).getValue();
-        }
-        return (T) value;
+        MultipleSelectionModel<TreeItem<T>> selectionModel = getSelectionModel();
+        TreeItem<T> selectedItem = selectionModel.getSelectedItem();
+        return selectedItem.getValue();
     }
 
     private void disableMenuItem(List<MenuItem> menuItems) {
-        TreeItem selectedItem = (TreeItem) getSelectionModel().getSelectedItem();
-
+        MultipleSelectionModel<TreeItem> selectionModel = getSelectionModel();
+        TreeItem selectedItem = selectionModel.getSelectedItem();
         for (MenuItem menuItem : menuItems) {
             if (menuItem instanceof Menu) {
                 disableMenuItem(((Menu) menuItem).getItems());
@@ -251,8 +252,8 @@ public class SceneTreeView extends TreeView {
             });
             TreeItem treeItem = new TreeItem(new TreeItemValue(clone, clone.getName()));
             selectTreeItem.getChildren().add(treeItem);
-            if(clone instanceof Node){
-                loopNode((Node) clone,treeItem);
+            if (clone instanceof Node) {
+                loopNode((Node) clone, treeItem);
             }
             clipboard.clear();
             return;
@@ -267,5 +268,28 @@ public class SceneTreeView extends TreeView {
             return;
         }
 
+    }
+
+    public void event(SpatialNameChangeEvent spatialNameChangeEvent) {
+        TreeItem treeItem = findTreeItemValue(sceneTreeItem, spatialNameChangeEvent.spatial);
+        if (treeItem != null) {
+            if (treeItem == sceneTreeItem) {
+                treeItem.setValue(new TreeItemValue<>(spatialNameChangeEvent.spatial, spatialNameChangeEvent.spatial.getName() + "(场景根节点)"));
+            } else {
+                treeItem.setValue(new TreeItemValue<>(spatialNameChangeEvent.spatial, spatialNameChangeEvent.spatial.getName()));
+            }
+        }
+    }
+
+    private <T> TreeItem<TreeItemValue<T>> findTreeItemValue(TreeItem<TreeItemValue<T>> treeItem, Object v) {
+        Object value = treeItem.getValue().getValue();
+        if (value == v) {
+            return treeItem;
+        }
+        ObservableList<TreeItem<TreeItemValue<T>>> children = treeItem.getChildren();
+        for (TreeItem child : children) {
+            return findTreeItemValue(child, v);
+        }
+        return null;
     }
 }

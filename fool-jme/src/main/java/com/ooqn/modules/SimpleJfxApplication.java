@@ -106,7 +106,7 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
 
         initialized = true;
 
-        EditorEventBus.editorEventBus.post(new JmeStartCompleteEvent(this));
+        EditorEventBus.post(new JmeStartCompleteEvent(this));
     }
 
     public EditorFxImageView getImageView() {
@@ -198,7 +198,7 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
         this.scene = scene;
         this.secenFile = file;
         editorNode.attachChild(scene.getSceneNode());
-        EditorEventBus.editorEventBus.post(new OpenSceneEvent(scene, this));
+        EditorEventBus.post(new OpenSceneEvent(scene, this));
     }
 
     @Override

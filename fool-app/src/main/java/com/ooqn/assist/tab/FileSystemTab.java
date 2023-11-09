@@ -67,7 +67,7 @@ public class FileSystemTab extends Tab {
                 FileTreeItem treeViewSelected = getTreeViewSelected();
                 if (treeViewSelected.file.isFile()) {
                     OpenFileEvent openFileEvent = new OpenFileEvent(treeViewSelected.file,treeView);
-                    EditorEventBus.editorEventBus.post(openFileEvent);
+                    EditorEventBus.post(openFileEvent);
                 }
             }
         });

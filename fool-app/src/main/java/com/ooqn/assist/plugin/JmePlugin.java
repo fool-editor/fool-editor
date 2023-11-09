@@ -2,11 +2,16 @@ package com.ooqn.assist.plugin;
 
 
 import cn.hutool.core.io.FileUtil;
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.jme3.asset.AssetManager;
 import com.jme3.export.binary.BinaryImporter;
+import com.ooqn.assist.App2;
 import com.ooqn.assist.core.FoolContext;
+import com.ooqn.assist.fx.control.Svg;
+import com.ooqn.assist.tab.InspectTab;
 import com.ooqn.assist.tab.JmeSceneTreeTab;
+import com.ooqn.assist.view.BaseInfoController;
 import com.ooqn.core.event.*;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.assist.tab.FileSystemTab;
@@ -14,8 +19,13 @@ import com.ooqn.assist.tab.JmeViewTab;
 import com.ooqn.core.EditorJmeApplication;
 import com.ooqn.core.plugin.Plugin;
 import com.ooqn.core.scene.EditorScene;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +33,7 @@ import java.io.IOException;
 public class JmePlugin implements Plugin {
 
     @Override
-    public void init(EditorEventBus eventBus) {
+    public void init(EventBus eventBus) {
         eventBus.register(this);
     }
 
@@ -88,5 +98,40 @@ public class JmePlugin implements Plugin {
             tabPane.getTabs().add(jmeSceneTreeTab);
         }
         jmeSceneTreeTab.init(openSceneEvent.editorScene);
+    }
+
+    @Subscribe
+    private void setSelectSpatialEvent(SelectEvent spatialEvent) throws IOException {
+        TabPane tabPane = FoolContext.getFoolContextWindow().getTabPane5();
+        InspectTab inspectTab=null;
+        for (Tab tab : tabPane.getTabs()) {
+            if (tab instanceof InspectTab) {
+                inspectTab=(InspectTab) tab;
+                break;
+            }
+        }
+        if(inspectTab==null){
+            inspectTab=new InspectTab();
+            tabPane.getTabs().add(inspectTab);
+        }
+        inspectTab.clearChildren();
+        if(spatialEvent instanceof SelectSpatialEvent){
+            SelectSpatialEvent selectSpatialEvent=(SelectSpatialEvent)spatialEvent;
+            // 加载FXML文件
+            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("baseInfo.fxml"));
+            Parent root = fxmlLoader.load();
+            BaseInfoController baseInfoController = fxmlLoader.getController();
+            baseInfoController.input.setText(selectSpatialEvent.obj.getName());
+            InspectTab finalInspectTab = inspectTab;
+            baseInfoController.input.textProperty().addListener((observable, oldValue, newValue) -> {
+                selectSpatialEvent.obj.setName(newValue);
+                EditorEventBus.post(new SpatialNameChangeEvent(finalInspectTab,selectSpatialEvent.obj));
+            });
+            baseInfoController.info.setText(selectSpatialEvent.obj.getClass().getName());
+            inspectTab.addNode(root);
+            Svg svg = new Svg(50, "icon/camera.svg");
+            baseInfoController.imgPane.getChildren().add(svg);
+        }
+
     }
 }

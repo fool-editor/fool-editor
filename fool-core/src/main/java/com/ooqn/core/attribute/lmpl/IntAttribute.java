@@ -6,9 +6,6 @@ import javafx.scene.Node;
 
 public class IntAttribute extends Attribute<Integer> {
 
-    public IntAttribute(int value) {
-        super(value);
-    }
 
     @Override
     public Node getUiNode() {

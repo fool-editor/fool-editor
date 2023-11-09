@@ -30,7 +30,7 @@ public class PluginManager {
             }
         }
         for (Plugin plugin : plugins.values()) {
-            plugin.init(EditorEventBus.editorEventBus);
+            plugin.init(EditorEventBus.eventBus);
         }
     }
 

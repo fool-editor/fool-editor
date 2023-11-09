@@ -3,12 +3,14 @@ package com.ooqn.core.event;
 import com.google.common.eventbus.EventBus;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
-public class EditorEventBus extends EventBus {
-    public static final EditorEventBus editorEventBus=new EditorEventBus();
+public class EditorEventBus {
+    public static final EventBus eventBus=new EventBus();
 
-    @Override
-    public void post(Object event) {
+    public static void post(Object event) {
         log.info("post event:{}",event.getClass().getName());
-        super.post(event);
+        eventBus.post(event);
+    }
+    public static void register(Object event) {
+        eventBus.register(event);
     }
 }

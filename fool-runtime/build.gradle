@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'application'
+}
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url 'https://jitpack.io' }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
