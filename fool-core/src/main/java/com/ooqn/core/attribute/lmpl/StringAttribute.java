@@ -6,9 +6,7 @@ import javafx.scene.Node;
 
 public class StringAttribute extends Attribute<String> {
 
-    public StringAttribute(String value) {
-        super(value);
-    }
+
 
     @Override
     public Node getUiNode() {

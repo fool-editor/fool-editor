@@ -2,11 +2,11 @@ package com.ooqn.core.event;
 
 import com.jme3.scene.Spatial;
 
-public class SelectSpatialEvent extends Event{
-    private Spatial spatial;
-
+/**
+ * 选择Spatial
+ */
+public class SelectSpatialEvent extends SelectEvent<Spatial>{
     public SelectSpatialEvent(Object sources, Spatial spatial) {
-        super(sources);
-        this.spatial = spatial;
+        super(sources,spatial);
     }
 }

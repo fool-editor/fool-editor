@@ -7,9 +7,6 @@ import javafx.scene.Node;
 
 public class FloatAttribute extends Attribute<Float> {
 
-    public FloatAttribute(float value) {
-        super(value);
-    }
 
     @Override
     public Node getUiNode() {

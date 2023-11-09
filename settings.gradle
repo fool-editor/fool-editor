@@ -3,3 +3,5 @@ rootProject.name = 'FoolEditor'
 include('fool-core')
 include('fool-jme')
 include('fool-app')
+include 'fool-runtime'
+

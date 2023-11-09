@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="60.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooqn.assist.view.BaseInfoController">
+   <children>
+      <Pane fx:id="imgPane" layoutX="20.0" layoutY="22.0" prefHeight="50.0" prefWidth="50.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="7.0" />
+      <TextField fx:id="input" layoutX="60.0" layoutY="11.0" prefHeight="23.0" prefWidth="522.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="11.0" />
+      <Label fx:id="info" layoutX="60.0" layoutY="40.0" text="Label" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+   </children>
+</AnchorPane>

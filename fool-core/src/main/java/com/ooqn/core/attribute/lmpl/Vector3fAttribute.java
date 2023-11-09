@@ -11,6 +11,10 @@ public class Vector3fAttribute extends Attribute<Vector3f> {
         super(value);
     }
 
+    public Vector3fAttribute(String title, Vector3f value) {
+        super(title, value);
+    }
+
     @Override
     public Node getUiNode() {
         return null;

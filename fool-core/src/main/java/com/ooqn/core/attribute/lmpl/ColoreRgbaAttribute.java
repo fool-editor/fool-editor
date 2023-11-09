@@ -8,9 +8,7 @@ import javafx.scene.Node;
 
 public class ColoreRgbaAttribute extends Attribute<ColorRGBA> {
 
-    public ColoreRgbaAttribute(ColorRGBA value) {
-        super(value);
-    }
+
 
     @Override
     public Node getUiNode() {

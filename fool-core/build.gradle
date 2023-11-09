@@ -12,7 +12,7 @@ java {
 
 javafx {
     version = "17"
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.web', 'javafx.swing']
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.web', 'javafx.swing', 'javafx.fxml']
 }
 
 
