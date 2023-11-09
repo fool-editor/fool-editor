@@ -9,7 +9,13 @@ public class FloatAttribute extends Attribute<Float> {
 
 
     @Override
-    public Node getUiNode() {
+    public void setValue(Float value) {
+
+    }
+
+    @Override
+    public Float getValue() {
         return null;
     }
+
 }

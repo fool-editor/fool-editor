@@ -6,12 +6,15 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.jme3.asset.AssetManager;
 import com.jme3.export.binary.BinaryImporter;
+import com.jme3.scene.Spatial;
 import com.ooqn.assist.App2;
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.fx.control.Svg;
+import com.ooqn.assist.inspect.InspectBuilder;
 import com.ooqn.assist.tab.InspectTab;
 import com.ooqn.assist.tab.JmeSceneTreeTab;
-import com.ooqn.assist.view.BaseInfoController;
+import com.ooqn.core.BaseInfoController;
+import com.ooqn.core.attribute.AttributeGroup;
 import com.ooqn.core.event.*;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.assist.tab.FileSystemTab;
@@ -19,16 +22,14 @@ import com.ooqn.assist.tab.JmeViewTab;
 import com.ooqn.core.EditorJmeApplication;
 import com.ooqn.core.plugin.Plugin;
 import com.ooqn.core.scene.EditorScene;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class JmePlugin implements Plugin {
 
@@ -117,20 +118,32 @@ public class JmePlugin implements Plugin {
         inspectTab.clearChildren();
         if(spatialEvent instanceof SelectSpatialEvent){
             SelectSpatialEvent selectSpatialEvent=(SelectSpatialEvent)spatialEvent;
-            // 加载FXML文件
-            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("baseInfo.fxml"));
-            Parent root = fxmlLoader.load();
-            BaseInfoController baseInfoController = fxmlLoader.getController();
-            baseInfoController.input.setText(selectSpatialEvent.obj.getName());
-            InspectTab finalInspectTab = inspectTab;
-            baseInfoController.input.textProperty().addListener((observable, oldValue, newValue) -> {
-                selectSpatialEvent.obj.setName(newValue);
-                EditorEventBus.post(new SpatialNameChangeEvent(finalInspectTab,selectSpatialEvent.obj));
-            });
-            baseInfoController.info.setText(selectSpatialEvent.obj.getClass().getName());
-            inspectTab.addNode(root);
-            Svg svg = new Svg(50, "icon/camera.svg");
-            baseInfoController.imgPane.getChildren().add(svg);
+//            List<AttributeGroup> attributeGroups = InspectBuilder.creatAttributeGroup(selectSpatialEvent.obj);
+//            for (AttributeGroup attributeGroup : attributeGroups) {
+//                inspectTab.add(attributeGroup);
+//            }
+            Spatial spatial = selectSpatialEvent.obj;
+//            // 加载FXML文件
+//            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("baseInfo.fxml"));
+//            Pane root = fxmlLoader.load();
+//            BaseInfoController baseInfoController = fxmlLoader.getController();
+//            baseInfoController.input.setText(spatial.getName());
+//            baseInfoController.input.textProperty().addListener((observable, oldValue, newValue) -> {
+//                spatial.setName(newValue);
+//                EditorEventBus.post(new SpatialNameChangeEvent(root, spatial));
+//            });
+//            baseInfoController.info.setText(spatial.getClass().getName());
+//            Svg svg = new Svg(50, "icon/camera.svg");
+//            baseInfoController.imgPane.getChildren().add(svg);
+//
+//             inspectTab.add(root);
+            List<AttributeGroup> attributeGroups = InspectBuilder.creatAttributeGroup(spatial);
+
+            for (AttributeGroup attributeGroup : attributeGroups) {
+                Pane uiNode = attributeGroup.getUiNode();
+                inspectTab.add(uiNode);
+            }
+
         }
 
     }

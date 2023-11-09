@@ -1,4 +1,4 @@
-package com.ooqn.assist.view;
+package com.ooqn.core;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

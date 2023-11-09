@@ -19,8 +19,11 @@ public class InspectTab extends Tab {
     public void clearChildren(){
         vBox.getChildren().clear();
     }
-    public void addNode(Node node){
+    public void add(Node node){
         vBox.getChildren().add(node);
+    }
+    public void add(AttributeGroup attributeGroup){
+        vBox.getChildren().add(attributeGroup.getUiNode());
     }
     public void addAttributeGroup(AttributeGroup attributeGroup){
 

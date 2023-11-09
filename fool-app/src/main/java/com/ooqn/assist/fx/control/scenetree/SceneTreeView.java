@@ -25,6 +25,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class SceneTreeView extends TreeView {
 
     private void creatMenu() {
         Menu nodeNewMenu = new Menu("新建", SvgUtil.getSvg("icon/addFile.svg"));
-        nodeNewMenu.getItems().add(new TreeMenuItem("Node", List.of(Node.class), event -> {
+        nodeNewMenu.getItems().add(new TreeMenuItem("Node", List.of(Node.class),new Svg(16,"icon/node.svg"), event -> {
             Node node = getSelectTreeItemValue();
             Node newNode = new Node("new node");
             FoolContext.runJmeThread(() -> {
@@ -158,7 +159,9 @@ public class SceneTreeView extends TreeView {
     private void initEditorScene(EditorScene editorScene) {
         Node sceneNode = editorScene.getSceneNode();
         sceneTreeItem = new TreeItem<>(new TreeItemValue<>(sceneNode, sceneNode.getName() + "(场景根节点)"));
-        sceneTreeItem.setGraphic(SvgUtil.getSvg("icon/file/scene.svg"));
+        Svg svg = new Svg(16,"icon/node.svg");
+        sceneTreeItem.setGraphic(svg);
+
         cameraTreeItem = new TreeItem();
         cameraTreeItem.setGraphic(new Svg("icon/camera.svg"));
         cameraTreeItem.setValue(new TreeItemValue<>(editorScene.getCameras(), "相机列表"));
@@ -181,6 +184,10 @@ public class SceneTreeView extends TreeView {
         }
         for (Spatial child : children) {
             TreeItem<TreeItemValue<Spatial>> treeItem = new TreeItem<>(new TreeItemValue<>(child, child.getName()));
+            treeItem.setGraphic(new Svg(16,"icon/spatial.svg"));
+            if(child instanceof Node){
+                treeItem.setGraphic(new Svg(16,"icon/node.svg"));
+            }
             prent.getChildren().add(treeItem);
             if (child instanceof Node) {
                 loopNode((Node) child, treeItem);
@@ -196,9 +203,9 @@ public class SceneTreeView extends TreeView {
     }
 
     private <T> T getSelectTreeItemValue() {
-        MultipleSelectionModel<TreeItem<T>> selectionModel = getSelectionModel();
-        TreeItem<T> selectedItem = selectionModel.getSelectedItem();
-        return selectedItem.getValue();
+        MultipleSelectionModel<TreeItem<TreeItemValue>> selectionModel = getSelectionModel();
+        TreeItem<TreeItemValue> selectedItem1 = selectionModel.getSelectedItem();
+        return (T)selectedItem1.getValue().getValue();
     }
 
     private void disableMenuItem(List<MenuItem> menuItems) {

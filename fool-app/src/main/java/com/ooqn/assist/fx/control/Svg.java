@@ -51,9 +51,11 @@ public class Svg extends Group {
     }
 
     private void setSize(int width, int height) {
-        // 创建缩放变换
-        Scale scale = new Scale(width * 1.0f / this.svgWidth, height * 1.0f / this.svgHeight);
-        getTransforms().add(scale);
+        for (javafx.scene.Node child : getChildren()) {
+            // 创建缩放变换
+            Scale scale = new Scale(width * 1.0f / this.svgWidth, height * 1.0f / this.svgHeight);
+            child.getTransforms().add(scale);
+        }
     }
 
     private void loopNodeList(NodeList nodeList, List<Element> gElement) {
