@@ -8,7 +8,12 @@ public class IntAttribute extends Attribute<Integer> {
 
 
     @Override
-    public Node getUiNode() {
+    public void setValue(Integer value) {
+
+    }
+
+    @Override
+    public Integer getValue() {
         return null;
     }
 }

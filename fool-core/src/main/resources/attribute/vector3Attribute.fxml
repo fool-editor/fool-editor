@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane fx:id="root" prefHeight="55.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooqn.core.attribute.lmpl.Vector3fAttribute">
+   <children>
+      <Label fx:id="titleLabel" text="title" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+      <HBox alignment="CENTER" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Label minWidth="15.0" prefWidth="30.0" text="X:" />
+            <TextField fx:id="xTextField"/>
+            <Label minWidth="15.0" text=" Y:" />
+            <TextField fx:id="yTextField"/>
+            <Label  minWidth="15.0" text=" Z:" />
+            <TextField fx:id="zTextField"/>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

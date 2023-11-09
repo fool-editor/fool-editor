@@ -6,7 +6,15 @@ import javafx.scene.Node;
 
 public class StringAttribute extends Attribute<String> {
 
+    @Override
+    public void setValue(String value) {
 
+    }
+
+    @Override
+    public String getValue() {
+        return null;
+    }
 
     @Override
     public Node getUiNode() {

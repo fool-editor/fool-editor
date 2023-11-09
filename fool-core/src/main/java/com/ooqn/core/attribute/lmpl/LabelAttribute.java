@@ -6,17 +6,17 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 public class LabelAttribute extends Attribute<String> {
-    private Label label;
 
-    public LabelAttribute() {
-        root = new Label();
-        label = (Label) root;
+
+
+    @Override
+    public void setValue(String value) {
+
     }
 
     @Override
-    public void setTitle(String title) {
-        super.setTitle(title);
-        label.setText(title);
+    public String getValue() {
+        return null;
     }
 
 }
