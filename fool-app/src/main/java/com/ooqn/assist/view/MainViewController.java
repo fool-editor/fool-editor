@@ -64,4 +64,6 @@ public class MainViewController implements Initializable, FoolContextWindow {
     public EditorJmeApplication getEditorJmeApplication() {
         return editorJmeApplication;
     }
+
+
 }

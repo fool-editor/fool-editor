@@ -11,6 +11,7 @@ import com.ooqn.core.event.OpenFileEvent;
 import com.ooqn.core.project.Project;
 import com.ooqn.core.scene.EditorScene;
 import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,11 +46,11 @@ public class FileSystemTab extends Tab {
         root.getChildren().add(srcJavaFileTreeItem);
         root.getChildren().add(resourcesFileTreeItem);
 
-        SVGPath refresh = SvgUtil.getSvg("icon/refresh.svg");
+        Node refresh = SvgUtil.getSvg("icon/refresh.svg");
         ContextMenu contextMenu = new ContextMenu();
         //不知道为什么设置contextMenu 宽度不起作用。
         MenuItem refreshItem = new MenuItem("刷新           ");
-        Menu newItem = new Menu("新建");
+        Menu newItem = new Menu("新建", SvgUtil.getSvg("icon/addFile.svg"));
         initNewItem(newItem);
         refreshItem.setGraphic(refresh);
         contextMenu.getItems().add(refreshItem);
@@ -65,7 +66,7 @@ public class FileSystemTab extends Tab {
             if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
                 FileTreeItem treeViewSelected = getTreeViewSelected();
                 if (treeViewSelected.file.isFile()) {
-                    OpenFileEvent openFileEvent = new OpenFileEvent(treeViewSelected.file);
+                    OpenFileEvent openFileEvent = new OpenFileEvent(treeViewSelected.file,treeView);
                     EditorEventBus.editorEventBus.post(openFileEvent);
                 }
             }
@@ -82,7 +83,7 @@ public class FileSystemTab extends Tab {
 
     private void loopFileTree(FileTreeItem prentTreeItem) {
         File prent = prentTreeItem.file;
-        if(prent.isFile()){
+        if (prent.isFile()) {
             return;
         }
         File[] files = prent.listFiles();
@@ -101,6 +102,9 @@ public class FileSystemTab extends Tab {
                     case "java":
                         fileTreeItem.setGraphic(new ImageView(new Image("icon/file/java.png")));
                         break;
+                    case "scene":
+                        fileTreeItem.setGraphic(SvgUtil.getSvg("icon/file/scene.svg"));
+                        break;
                     default:
                         fileTreeItem.setGraphic(new ImageView(new Image("icon/file/unknown.png")));
                 }
@@ -112,7 +116,8 @@ public class FileSystemTab extends Tab {
     }
 
     private void initNewItem(Menu newMenu) {
-        FileShowMenuItem scene = new FileShowMenuItem("场景(.scene)       ",false,false);
+        FileShowMenuItem scene = new FileShowMenuItem("场景(.scene)       ", false, false);
+        scene.setGraphic(SvgUtil.getSvg("icon/file/scene.svg"));
         scene.setOnAction(event -> {
             FileTreeItem treeViewSelected = getTreeViewSelected();
             EditorScene editorScene = EditorScene.newScene();

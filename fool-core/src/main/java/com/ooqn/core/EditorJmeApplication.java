@@ -14,9 +14,11 @@ public interface EditorJmeApplication extends Application {
     EditorScene getScene();
 
     void openScene(EditorScene scene, File file);
+    void saveScene();
 
     boolean isInitialized();
 
     void reBindPostViewPort();
 
+    Thread getThread();
 }

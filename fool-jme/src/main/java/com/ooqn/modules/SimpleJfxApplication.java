@@ -106,7 +106,7 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
 
         initialized = true;
 
-        EditorEventBus.editorEventBus.post(new JmeStartCompleteEvent());
+        EditorEventBus.editorEventBus.post(new JmeStartCompleteEvent(this));
     }
 
     public EditorFxImageView getImageView() {
@@ -119,12 +119,17 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
 
     @Override
     public void reBindPostViewPort() {
-        SimpleJfxApplication simpleJfxApplication=this;
+        SimpleJfxApplication simpleJfxApplication = this;
         Platform.runLater(() -> {
             sceneProcessor.unbind();
             List<ViewPort> postViews = getRenderManager().getPostViews();
             sceneProcessor.bind(imageView, simpleJfxApplication, postViews.get(postViews.size() - 1));
         });
+    }
+
+    @Override
+    public Thread getThread() {
+        return jmeThread;
     }
 
     public boolean isJmeThread() {
@@ -154,7 +159,7 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
         box.getMaterial().setFloat("Roughness", 0.001f);
         box.getMaterial().setFloat("Metallic", 0.001f);
 
-        rootNode.attachChild(box);
+//        rootNode.attachChild(box);
 
     }
 
@@ -181,18 +186,31 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
 
     @Override
     public void openScene(EditorScene scene, File file) {
-        if(this.scene!=null){
+        if (this.scene != null) {
             try {
                 scene.save(secenFile);
             } catch (IOException e) {
-                AlertHandel.exceptionHandel("场景保存失败",e);
+                AlertHandel.exceptionHandel("场景保存失败", e);
                 return;
             }
             editorNode.detachChild(scene.getSceneNode());
         }
         this.scene = scene;
-        this.secenFile=file;
+        this.secenFile = file;
         editorNode.attachChild(scene.getSceneNode());
-        EditorEventBus.editorEventBus.post(new OpenSceneEvent(scene));
+        EditorEventBus.editorEventBus.post(new OpenSceneEvent(scene, this));
+    }
+
+    @Override
+    public void saveScene() {
+
+        if (this.scene != null) {
+            try {
+                log.info("保存场景"+secenFile);
+                scene.save(secenFile);
+            } catch (IOException e) {
+                AlertHandel.exceptionHandel("场景保存失败", e);
+            }
+        }
     }
 }

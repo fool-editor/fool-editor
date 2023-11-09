@@ -61,21 +61,30 @@ public class JmePlugin implements Plugin {
                 AlertHandel.exceptionHandel(e);
                 return;
             }
-            editorJmeApplication.openScene(editorScene,file);
+            editorJmeApplication.openScene(editorScene, file);
         }
     }
+
+    @Subscribe
+    private void editorCloseEvent(EditorCloseEvent editorCloseEvent) {
+        EditorScene scene = FoolContext.getEditorJmeApplication().getScene();
+        if (scene != null) {
+            FoolContext.getEditorJmeApplication().saveScene();
+        }
+    }
+
     @Subscribe
     private void openSceneEvent(OpenSceneEvent openSceneEvent) {
         TabPane tabPane = FoolContext.getFoolContextWindow().getTabPane1();
-        JmeSceneTreeTab jmeSceneTreeTab=null;
+        JmeSceneTreeTab jmeSceneTreeTab = null;
         for (Tab tab : tabPane.getTabs()) {
             if (tab instanceof JmeSceneTreeTab) {
-                jmeSceneTreeTab= (JmeSceneTreeTab) tab;
+                jmeSceneTreeTab = (JmeSceneTreeTab) tab;
                 break;
             }
         }
-        if(jmeSceneTreeTab==null){
-            jmeSceneTreeTab=new JmeSceneTreeTab();
+        if (jmeSceneTreeTab == null) {
+            jmeSceneTreeTab = new JmeSceneTreeTab();
             tabPane.getTabs().add(jmeSceneTreeTab);
         }
         jmeSceneTreeTab.init(openSceneEvent.editorScene);

@@ -4,10 +4,11 @@ import lombok.Getter;
 
 import java.io.File;
 @Getter
-public class OpenFileEvent {
+public class OpenFileEvent extends Event{
     private File file;
 
-    public OpenFileEvent(File file) {
+    public OpenFileEvent(File file,Object source) {
+        super(source);
         this.file = file;
     }
 }

@@ -131,7 +131,7 @@ public class ProjectManagerViewController implements Initializable {
             // 添加窗口关闭事件处理程序
             newStage.setOnCloseRequest(event -> {
                 log.info("exit....");
-                EditorEventBus.editorEventBus.post(new EditorCloseEvent());
+                EditorEventBus.editorEventBus.post(new EditorCloseEvent(newStage));
                 for (Plugin plugin : PluginManager.getPlugins()) {
                     try {
                         plugin.destroy();
