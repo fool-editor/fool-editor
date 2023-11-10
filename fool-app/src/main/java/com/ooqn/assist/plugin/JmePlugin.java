@@ -7,14 +7,13 @@ import com.google.common.eventbus.Subscribe;
 import com.jme3.asset.AssetManager;
 import com.jme3.export.binary.BinaryImporter;
 import com.jme3.scene.Spatial;
-import com.ooqn.assist.App2;
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.fx.control.Svg;
 import com.ooqn.assist.inspect.InspectBuilder;
 import com.ooqn.assist.tab.InspectTab;
 import com.ooqn.assist.tab.JmeSceneTreeTab;
-import com.ooqn.core.BaseInfoController;
 import com.ooqn.core.attribute.AttributeGroup;
+import com.ooqn.core.attribute.CallBack;
+import com.ooqn.core.attribute.GroupDelete;
 import com.ooqn.core.event.*;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.assist.tab.FileSystemTab;
@@ -22,7 +21,7 @@ import com.ooqn.assist.tab.JmeViewTab;
 import com.ooqn.core.EditorJmeApplication;
 import com.ooqn.core.plugin.Plugin;
 import com.ooqn.core.scene.EditorScene;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
@@ -124,7 +123,7 @@ public class JmePlugin implements Plugin {
 //            }
             Spatial spatial = selectSpatialEvent.obj;
 //            // 加载FXML文件
-//            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("baseInfo.fxml"));
+//            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("baseInfoGroup.fxml"));
 //            Pane root = fxmlLoader.load();
 //            BaseInfoController baseInfoController = fxmlLoader.getController();
 //            baseInfoController.input.setText(spatial.getName());
@@ -137,11 +136,17 @@ public class JmePlugin implements Plugin {
 //            baseInfoController.imgPane.getChildren().add(svg);
 //
 //             inspectTab.add(root);
-            List<AttributeGroup> attributeGroups = InspectBuilder.creatAttributeGroup(spatial);
+            List<AttributeGroup> attributeGroups = InspectBuilder.createAttributeGroup(spatial);
 
             for (AttributeGroup attributeGroup : attributeGroups) {
-                Pane uiNode = attributeGroup.getUiNode();
+                Node uiNode = attributeGroup.getUiNode();
                 inspectTab.add(uiNode);
+                InspectTab finalInspectTab = inspectTab;
+                if(attributeGroup instanceof GroupDelete){
+                    ((GroupDelete) attributeGroup).addDeleteCallBack(() -> {
+                        finalInspectTab.remove(uiNode);
+                    });
+                }
             }
 
         }
