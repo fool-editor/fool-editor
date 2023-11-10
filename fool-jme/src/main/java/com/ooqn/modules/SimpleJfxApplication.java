@@ -137,27 +137,12 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
     }
 
 
-    private Geometry box;
 
     public void initApp() {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(6);
 
-        DirectionalLight directionalLight = new DirectionalLight(
-                new Vector3f(-1, -1, -1).normalizeLocal(),
-                ColorRGBA.White.clone()
-        );
 
-        rootNode.addLight(directionalLight);
-
-        Texture texture = assetManager.loadTexture("com/jme3/app/Monkey.png");
-
-        box = new Geometry("Box", new Box(1, 1, 1));
-        box.setMaterial(new Material(assetManager, Materials.PBR));
-        box.getMaterial().setTexture("BaseColorMap", texture);
-        box.getMaterial().setColor("BaseColor", ColorRGBA.White);
-        box.getMaterial().setFloat("Roughness", 0.001f);
-        box.getMaterial().setFloat("Metallic", 0.001f);
 
 //        rootNode.attachChild(box);
 
@@ -165,7 +150,6 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
 
     @Override
     public void simpleUpdate(float tpf) {
-        box.rotate(tpf * 1f, tpf * 1f, tpf * 1f);
     }
 
 

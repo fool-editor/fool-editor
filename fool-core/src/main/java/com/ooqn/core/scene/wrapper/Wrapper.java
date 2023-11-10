@@ -1,8 +1,6 @@
 package com.ooqn.core.scene.wrapper;
 
-import com.jme3.export.JmeExporter;
-import com.jme3.export.JmeImporter;
-import com.jme3.export.Savable;
+import com.jme3.export.*;
 
 import java.io.IOException;
 
@@ -20,11 +18,13 @@ public class Wrapper<Date extends Savable> implements Savable {
 
     @Override
     public void write(JmeExporter ex) throws IOException {
-
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(data,"value",null);
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
-
+        InputCapsule capsule = im.getCapsule(this);
+        data=(Date) capsule.readSavable("value",null);
     }
 }

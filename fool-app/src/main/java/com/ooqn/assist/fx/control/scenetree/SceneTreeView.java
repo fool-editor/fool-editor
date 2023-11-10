@@ -1,6 +1,5 @@
 package com.ooqn.assist.fx.control.scenetree;
 
-import cn.hutool.core.lang.tree.Tree;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.renderer.Camera;
@@ -9,7 +8,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.fx.control.Svg;
+import com.ooqn.core.fx.Svg;
 import com.ooqn.assist.fx.control.TreeItemValue;
 import com.ooqn.assist.util.SvgUtil;
 import com.ooqn.core.event.EditorEventBus;
@@ -17,16 +16,9 @@ import com.ooqn.core.event.SelectCameraEvent;
 import com.ooqn.core.event.SelectSpatialEvent;
 import com.ooqn.core.event.SpatialNameChangeEvent;
 import com.ooqn.core.scene.EditorScene;
-import com.sun.jdi.connect.ListeningConnector;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventTarget;
-import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +35,12 @@ public class SceneTreeView extends TreeView {
     public SceneTreeView() {
         clipboard = new Clipboard();
         setShowRoot(false);
-        creatMenu();
+        createMenu();
     }
 
-    private void creatMenu() {
+    private Menu creatNewMenu() {
         Menu nodeNewMenu = new Menu("新建", SvgUtil.getSvg("icon/addFile.svg"));
-        nodeNewMenu.getItems().add(new TreeMenuItem("Node", List.of(Node.class),new Svg(16,"icon/node.svg"), event -> {
+        nodeNewMenu.getItems().add(new TreeMenuItem("Node", List.of(Node.class), new Svg(16, "icon/node.svg"), event -> {
             Node node = getSelectTreeItemValue();
             Node newNode = new Node("new node");
             FoolContext.runJmeThread(() -> {
@@ -60,10 +52,10 @@ public class SceneTreeView extends TreeView {
         nodeNewMenu.getItems().add(new SeparatorMenuItem());
         nodeNewMenu.getItems().add(new TreeMenuItem("Box", List.of(Node.class), event -> {
             Node node = getSelectTreeItemValue();
-            Box box = new Box(0.5f, 0.5f, 05f);
+            Box box = new Box(0.5f, 0.5f, 0.5f);
             Geometry geometry = new Geometry("new Box");
             geometry.setMesh(box);
-            Material material = new Material(FoolContext.getEditorJmeApplication().getAssetManager(), Materials.UNSHADED);
+            Material material = new Material(FoolContext.getEditorJmeApplication().getAssetManager(), Materials.LIGHTING);
             geometry.setMaterial(material);
             FoolContext.runJmeThread(() -> {
                 node.attachChild(geometry);
@@ -72,6 +64,13 @@ public class SceneTreeView extends TreeView {
             });
         }));
 
+
+
+        return nodeNewMenu;
+    }
+
+    private void createMenu() {
+
         sceneRootNodeContextMenu = new ContextMenu();
         sceneRootNodeContextMenu.getItems().add(new TreeMenuItem("刷新          ", SvgUtil.getSvg("icon/refresh.svg"), event -> {
             Node node = getSelectTreeItemValue();
@@ -79,7 +78,7 @@ public class SceneTreeView extends TreeView {
             loopNode(node, selectTreeItem);
         }));
         sceneRootNodeContextMenu.getItems().add(new SeparatorMenuItem());
-        sceneRootNodeContextMenu.getItems().add(nodeNewMenu);
+        sceneRootNodeContextMenu.getItems().add(creatNewMenu());
         sceneRootNodeContextMenu.getItems().add(new SeparatorMenuItem());
         sceneRootNodeContextMenu.getItems().add(new TreeMenuItem("复制", true, SvgUtil.getSvg("icon/copy.svg")));
         sceneRootNodeContextMenu.getItems().add(new TreeMenuItem("剪切", true, SvgUtil.getSvg("icon/cut.svg")));
@@ -96,7 +95,7 @@ public class SceneTreeView extends TreeView {
             loopNode(node, selectTreeItem);
         }));
         sceneNodeContextMenu.getItems().add(new SeparatorMenuItem());
-        sceneNodeContextMenu.getItems().add(nodeNewMenu);
+        sceneNodeContextMenu.getItems().add(creatNewMenu());
         sceneNodeContextMenu.getItems().add(new TreeMenuItem("复制", SvgUtil.getSvg("icon/copy.svg"), event -> {
             clipboard.set(Clipboard.Type.Cope, getSelectTreeItem());
         }));
@@ -159,7 +158,7 @@ public class SceneTreeView extends TreeView {
     private void initEditorScene(EditorScene editorScene) {
         Node sceneNode = editorScene.getSceneNode();
         sceneTreeItem = new TreeItem<>(new TreeItemValue<>(sceneNode, sceneNode.getName() + "(场景根节点)"));
-        Svg svg = new Svg(16,"icon/node.svg");
+        Svg svg = new Svg(16, "icon/node.svg");
         sceneTreeItem.setGraphic(svg);
 
         cameraTreeItem = new TreeItem();
@@ -184,9 +183,9 @@ public class SceneTreeView extends TreeView {
         }
         for (Spatial child : children) {
             TreeItem<TreeItemValue<Spatial>> treeItem = new TreeItem<>(new TreeItemValue<>(child, child.getName()));
-            treeItem.setGraphic(new Svg(16,"icon/spatial.svg"));
-            if(child instanceof Node){
-                treeItem.setGraphic(new Svg(16,"icon/node.svg"));
+            treeItem.setGraphic(new Svg(16, "icon/spatial.svg"));
+            if (child instanceof Node) {
+                treeItem.setGraphic(new Svg(16, "icon/node.svg"));
             }
             prent.getChildren().add(treeItem);
             if (child instanceof Node) {
@@ -205,7 +204,7 @@ public class SceneTreeView extends TreeView {
     private <T> T getSelectTreeItemValue() {
         MultipleSelectionModel<TreeItem<TreeItemValue>> selectionModel = getSelectionModel();
         TreeItem<TreeItemValue> selectedItem1 = selectionModel.getSelectedItem();
-        return (T)selectedItem1.getValue().getValue();
+        return (T) selectedItem1.getValue().getValue();
     }
 
     private void disableMenuItem(List<MenuItem> menuItems) {

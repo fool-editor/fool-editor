@@ -13,23 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AttributeGroup<T extends Pane> {
-    private List<Attribute> attributes=new ArrayList<>();
+public abstract class AttributeGroup<T extends Node> {
+
 
     @FXML
-    private T pane;
+    public T uiNode;
 
     public AttributeGroup(T pane) {
-        this.pane = pane;
+        this.uiNode = pane;
     }
 
-    public void addAttribute(Attribute attribute){
-        attributes.add(attribute);
-        Node uiNode = attribute.getUiNode();
-        pane.getChildren().add(uiNode);
+    public AttributeGroup() {
     }
 
+    public abstract void addAttribute(Attribute attribute);
     public T getUiNode() {
-        return pane;
+        return uiNode;
     }
 }

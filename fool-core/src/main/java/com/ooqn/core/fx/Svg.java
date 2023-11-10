@@ -1,18 +1,18 @@
-package com.ooqn.assist.fx.control;
+package com.ooqn.core.fx;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
+import com.sun.javafx.scene.shape.SVGPathHelper;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import org.w3c.dom.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,10 +44,23 @@ public class Svg extends Group {
         Element root = document.getDocumentElement();
         String widthStr = root.getAttribute("width");
         String heightStr = root.getAttribute("height");
-        svgWidth = Integer.parseInt(widthStr);
-        svgHeight = Integer.parseInt(heightStr);
+
+        String viewBox = root.getAttribute("viewBox");
+        if(StrUtil.isBlankIfStr(viewBox)){
+            throw new IORuntimeException("svg 缺失viewBox");
+        }
+        String[] viewBoxs = viewBox.split(" ");
+        int x=Integer.parseInt(viewBoxs[0]);
+        int y=Integer.parseInt(viewBoxs[1]);
+        int w=Integer.parseInt(viewBoxs[2]);
+        int h=Integer.parseInt(viewBoxs[3]);
+        svgWidth = w-x;
+        svgHeight = h-y;
         List<Element> gElement = new ArrayList<>();
         loopNodeList(root.getChildNodes(), gElement);
+        if(widthStr!=null && heightStr!=null){
+            setSize(Integer.parseInt(widthStr),Integer.parseInt(heightStr));
+        }
     }
 
     private void setSize(int width, int height) {
@@ -156,7 +169,7 @@ public class Svg extends Group {
 
     private SVGPath readPath(Element element, List<Element> gElement) {
         SVGPath svgPath = new SVGPath();
-        Set<String> attributes = getAttributes("d", "full");
+        Set<String> attributes = getAttributes("d","fill-rule");
         checkElementAttribute(attributes, element);
         for (String attKey : attributes) {
             String value = getAttribute(element, attKey, gElement);
@@ -231,6 +244,6 @@ public class Svg extends Group {
 
 
     public static void main(String[] args) {
-        new Svg("icon/camera.svg");
+
     }
 }
