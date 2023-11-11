@@ -121,10 +121,16 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
     public void reBindPostViewPort() {
         SimpleJfxApplication simpleJfxApplication = this;
         Platform.runLater(() -> {
-            sceneProcessor.unbind();
-            List<ViewPort> postViews = getRenderManager().getPostViews();
-            sceneProcessor.bind(imageView, simpleJfxApplication, postViews.get(postViews.size() - 1));
+//            sceneProcessor.unbind();
+            sceneProcessor = new ImageViewFrameTransferSceneProcessor();
+            List<ViewPort> vps = renderManager.getPostViews();
+            ViewPort last = vps.get(vps.size() - 1);
+            sceneProcessor.bind(imageView, this, last);
+            sceneProcessor.setEnabled(true);
+            sceneProcessor.setTransferMode(FrameTransferSceneProcessor.TransferMode.ON_CHANGES);
         });
+
+
     }
 
     @Override

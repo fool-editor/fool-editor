@@ -86,6 +86,7 @@ public class FileSystemTab extends Tab {
         if (prent.isFile()) {
             return;
         }
+        prentTreeItem.getChildren().clear();
         File[] files = prent.listFiles();
         for (File file : files) {
             FileTreeItem fileTreeItem = new FileTreeItem(file, prentTreeItem.java);
@@ -122,7 +123,8 @@ public class FileSystemTab extends Tab {
             FileTreeItem treeViewSelected = getTreeViewSelected();
             EditorScene editorScene = EditorScene.newScene();
             try {
-                editorScene.save(new File(treeViewSelected.file, "新建场景.scene"));
+                File newFile = com.ooqn.assist.util.FileUtil.getNewFile(treeViewSelected.file, "新建场景.scene");
+                editorScene.save(newFile);
                 loopFileTree(treeViewSelected);
             } catch (IOException e) {
                 AlertHandel.exceptionHandel(e);
