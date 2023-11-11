@@ -139,7 +139,7 @@
             </TabPane>
           </items>
         </SplitPane>
-        <AnchorPane fx:id="rightPane" maxWidth="200" minWidth="200">
+        <AnchorPane>
           <children>
             <TabPane fx:id="tabPane5" layoutX="26.0" layoutY="66.0" prefHeight="200.0"
               prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
