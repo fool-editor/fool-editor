@@ -1,19 +1,12 @@
 package com.ooqn.assist.tab;
 
 import com.ooqn.assist.core.FoolContext;
-import com.ooqn.assist.util.SvgUtil;
 import com.ooqn.core.EditorJmeApplication;
-import com.ooqn.core.fx.Svg;
 import com.ooqn.modules.FxJmeApplication;
-import com.ooqn.modules.SimpleJfxApplication;
-import com.ooqn.modules.jme.EditorFxImageView;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,7 +21,6 @@ public class JmeViewTab extends Tab {
         EditorJmeApplication editorJmeApplication = FoolContext.getFoolContextWindow().getEditorJmeApplication();
         FxJmeApplication<Canvas> fxJmeApplication = (FxJmeApplication) editorJmeApplication;
         renderCanvas = fxJmeApplication.getImageView();
-//        EditorFxImageView imageView = ((SimpleJfxApplication)FoolContext.getFoolContextWindow().getEditorJmeApplication()).getImageView();
         tabPaneProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
                 oldValue.widthProperty().removeListener(this::reSize);

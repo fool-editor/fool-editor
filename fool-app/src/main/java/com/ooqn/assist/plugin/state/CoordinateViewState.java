@@ -3,25 +3,16 @@ package com.ooqn.assist.plugin.state;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
-import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
-import com.jme3.util.Screenshots;
-import com.ooqn.assist.core.FoolContext;
-import com.ooqn.core.EditorJmeApplication;
-import com.ooqn.modules.SimpleJfxApplication;
 import com.ooqn.modules.jme.post.DefSceneProcessor;
 
 /**
@@ -113,6 +104,7 @@ public class CoordinateViewState extends AbstractAppState {
         public void reshape(ViewPort vp, int w, int h) {
             camera.setFrustumPerspective(45f, (float) w / h, 1f, 1000f);
             camera.setViewPort(1f - coordinateViewSize / w, 1f, 1f - coordinateViewSize / h, 1f);
+            //用于重置相机大小，防止变形
             camera.resize(w,h,true);
         }
     }

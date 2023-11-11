@@ -1,16 +1,10 @@
 package com.ooqn.modules;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Logger;
-
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import com.ooqn.core.EditorJmeApplication;
@@ -19,20 +13,19 @@ import com.ooqn.core.event.JmeStartCompleteEvent;
 import com.ooqn.core.event.OpenSceneEvent;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.core.scene.EditorScene;
-import com.ooqn.modules.jme.EditorFxImageView;
-import com.ooqn.modules.jme.FrameTransferSceneProcessor;
-import com.ooqn.modules.jme.ImageViewFrameTransferSceneProcessor;
-import com.ooqn.modules.jme.JfxMouseInput;
-import com.ooqn.modules.jme.JmeOffscreenSurfaceContext;
+import com.ooqn.modules.jme.*;
+import com.ooqn.modules.jme.state.JmeViewAppState;
+import javafx.scene.canvas.Canvas;
 
-public class SimpleJfxApplication extends SimpleApplication implements EditorJmeApplication, FxJmeApplication<EditorFxImageView> {
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
+
+public class SimpleJfxApplication extends SimpleApplication implements EditorJmeApplication, FxJmeApplication<Canvas> {
 
     private static final Logger log = Logger.getLogger(SimpleJfxApplication.class.getName());
 
     private Thread jmeThread;
-    private EditorFxImageView imageView;
-    public ImageViewFrameTransferSceneProcessor sceneProcessor;
-
 
     private Node editorNode = new Node("editorNode");
 
@@ -40,21 +33,21 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
     private File secenFile;
 
     private boolean initialized = false;
-
+    private JmeViewAppState jmeViewAppState;
     public SimpleJfxApplication(AppState... initialStates) {
         super(initialStates);
+        jmeViewAppState=new JmeViewAppState();
         jmeThread = new Thread(new ThreadGroup("LWJGL"), () -> {
             start();
         }, "LWJGL Render");
-        imageView = new EditorFxImageView();
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
-
         settings.setCustomRenderer(JmeOffscreenSurfaceContext.class);
         settings.setResizable(true);
-
+        //不知道是不是bug 设置小了 截图出来最大只有初始大小
+        settings.setHeight(1204);
+        settings.setWidth(1204);
         // setPauseOnLostFocus(false);
-
         setSettings(settings);
 
         createCanvas();
@@ -69,45 +62,29 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
         startCanvas(true);
     }
 
-    private void initJavaFxImage() {
 
-        imageView.getProperties().put(JfxMouseInput.PROP_USE_LOCAL_COORDS, true);
-        // imageView.setMouseTransparent(true);
-        imageView.setFocusTraversable(true);
-
-        List<ViewPort> vps = renderManager.getPostViews();
-        ViewPort last = vps.get(vps.size() - 1);
-
-        sceneProcessor = new ImageViewFrameTransferSceneProcessor();
-        sceneProcessor.bind(imageView, this, last);
-        sceneProcessor.setEnabled(true);
-        sceneProcessor.setTransferMode(FrameTransferSceneProcessor.TransferMode.ON_CHANGES);
-    }
 
     @Override
     public void simpleInitApp() {
         rootNode.attachChild(editorNode);
-        initJavaFxImage();
-
+        getStateManager().attach(jmeViewAppState);
         viewPort.setBackgroundColor(ColorRGBA.Black);
-
-
-        log.info("jMonkeyEngine Initialized.");
-
-        initApp();
+        flyCam.setDragToRotate(true);
+        flyCam.setMoveSpeed(6);
 
         initialized = true;
-
+        log.info("jMonkeyEngine Initialized.");
         EditorEventBus.post(new JmeStartCompleteEvent(this));
     }
 
-    public EditorFxImageView getImageView() {
-        return imageView;
+    public Canvas getImageView() {
+        return jmeViewAppState.getCanvas();
     }
 
     public boolean isInitialized() {
         return initialized;
     }
+
 
 
     @Override
@@ -120,16 +97,6 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
     }
 
 
-
-    public void initApp() {
-        flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(6);
-
-
-
-//        rootNode.attachChild(box);
-
-    }
 
     @Override
     public void simpleUpdate(float tpf) {
@@ -179,12 +146,5 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
                 AlertHandel.exceptionHandel("场景保存失败", e);
             }
         }
-    }
-
-    public void bind() {
-        List<ViewPort> vps = renderManager.getPostViews();
-        ViewPort last = vps.get(vps.size() - 1);
-        sceneProcessor.bind(imageView, this, last);
-
     }
 }
