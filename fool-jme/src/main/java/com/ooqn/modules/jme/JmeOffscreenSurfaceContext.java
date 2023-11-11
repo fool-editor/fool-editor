@@ -10,7 +10,7 @@ import com.jme3.system.JmeContext;
 import com.jme3.system.JmeSystem;
 import com.jme3.system.SystemListener;
 import com.jme3.system.Timer;
-import com.ooqn.modules.SimpleJfxApplication;
+import com.ooqn.modules.FxJmeApplication;
 
 /**
  * The implementation of the {@link JmeContext} for integrating to JavaFX.
@@ -58,7 +58,7 @@ public  class JmeOffscreenSurfaceContext implements JmeContext {
         this.width = 1;
     }
 
-    public void setApplication(SimpleJfxApplication app) {
+    public void setApplication(FxJmeApplication app) {
         this.keyInput.setApplication(app);
         this.mouseInput.setApplication(app);
     }

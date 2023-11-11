@@ -17,6 +17,7 @@ import com.ooqn.core.event.OpenProjectEvent;
 import com.ooqn.core.plugin.Plugin;
 import com.ooqn.core.plugin.PluginManager;
 import com.ooqn.core.project.Project;
+import com.ooqn.modules.FxJmeApplication;
 import com.ooqn.modules.SimpleJfxApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
@@ -61,7 +61,7 @@ public class ProjectManagerViewController implements Initializable {
     TextField projectNameTextField;
     @FXML
     TextField projectGroupIdTextField;
-    private SimpleJfxApplication simpleJfxApplication;
+    private FxJmeApplication fxJmeApplication;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -105,7 +105,7 @@ public class ProjectManagerViewController implements Initializable {
     private void openProject(Project project) {
         Stage stage = (Stage) projectGroupIdTextField.getScene().getWindow();
         stage.close();
-        simpleJfxApplication = new SimpleJfxApplication(
+        fxJmeApplication = new SimpleJfxApplication(
                 new StatsAppState(),
                 new AudioListenerState(),
                 new FlyCamAppState()
@@ -119,7 +119,7 @@ public class ProjectManagerViewController implements Initializable {
             fxmlLoader.setControllerFactory(param -> {
                 try {
 
-                    MainViewController mainViewController = new MainViewController(simpleJfxApplication);
+                    MainViewController mainViewController = new MainViewController(fxJmeApplication);
                     FoolContext.init(project, mainViewController);
                     return mainViewController;
                 } catch (Exception e) {
@@ -145,7 +145,7 @@ public class ProjectManagerViewController implements Initializable {
                     }
                 }
                 try {
-                    simpleJfxApplication.stop(true);
+                    fxJmeApplication.stop(true);
                 } catch (Exception ex) {
                     log.warn(ex.getMessage(), ex);
                 } finally {

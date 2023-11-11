@@ -1,6 +1,6 @@
 package com.ooqn.modules.jme;
 
-import com.ooqn.modules.SimpleJfxApplication;
+import com.ooqn.modules.FxJmeApplication;
 
 import javafx.application.Platform;
 
@@ -13,9 +13,9 @@ import javafx.application.Platform;
  */
 public class ThreadRunner {
 
-    private final SimpleJfxApplication application;
+    private final FxJmeApplication application;
 
-    public ThreadRunner(SimpleJfxApplication application) {
+    public ThreadRunner(FxJmeApplication application) {
         this.application = application;
     }
 

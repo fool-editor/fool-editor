@@ -3,6 +3,7 @@ package com.ooqn.assist.view;
 import com.ooqn.assist.core.FoolContextWindow;
 import com.ooqn.assist.tab.FileSystemTab;
 import com.ooqn.core.EditorJmeApplication;
+import com.ooqn.modules.FxJmeApplication;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,9 +39,9 @@ public class MainViewController implements Initializable, FoolContextWindow {
     public Label footerLabel;
 
 
-    private final EditorJmeApplication editorJmeApplication;
+    private final FxJmeApplication editorJmeApplication;
 
-    public MainViewController(EditorJmeApplication editorJmeApplication) {
+    public MainViewController(FxJmeApplication editorJmeApplication) {
         this.editorJmeApplication = editorJmeApplication;
     }
 
@@ -50,7 +51,7 @@ public class MainViewController implements Initializable, FoolContextWindow {
     }
 
     @Override
-    public EditorJmeApplication getEditorJmeApplication() {
+    public FxJmeApplication getEditorJmeApplication() {
         return editorJmeApplication;
     }
 

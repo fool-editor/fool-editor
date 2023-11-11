@@ -1,4 +1,4 @@
-package com.ooqn.assist.jme.post;
+package com.ooqn.modules.jme.post;
 
 import com.jme3.post.SceneProcessor;
 import com.jme3.profile.AppProfiler;
