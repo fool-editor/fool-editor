@@ -4,7 +4,7 @@ import cn.hutool.core.io.file.PathUtil;
 import com.jme3.app.FlyCamAppState;
 import com.jme3.app.StatsAppState;
 import com.jme3.audio.AudioListenerState;
-import com.ooqn.assist.App2;
+import com.ooqn.assist.App;
 import com.ooqn.assist.core.EditorSaveData;
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.domain.ProjectFile;
@@ -21,11 +21,13 @@ import com.ooqn.modules.SimpleJfxApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
@@ -64,17 +66,20 @@ public class ProjectManagerViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 创建一个Font对象并设置字体大小
-        Font customFont = Font.font(null, 20);
+        Font customFont = Font.font("Microsoft YaHei", 20);
 
         List<ProjectFile> projectFiles = EditorSaveData.getProjectFiles();
+        
         for (ProjectFile projectFile : projectFiles) {
             VBox pane = new VBox();
-            pane.setPrefHeight(50);
-            pane.prefWidthProperty().bind(rootAnchorPane.prefWidthProperty());
+            pane.setPadding(new Insets(5, 10, 10, 10));
+            // pane.setPrefHeight(50);
+            // 默认为绑定大小
+            //pane.prefWidthProperty().bind(rootAnchorPane.prefWidthProperty());
             File file = new File(projectFile.getFilePath());
             Label name = new Label(file.getName());
             Label path = new Label(file.getPath());
-            name.setFont(customFont);
+                        name.setFont(customFont);
             pane.getChildren().add(name);
             pane.getChildren().add(path);
             // 添加鼠标移入事件处理程序
@@ -109,7 +114,7 @@ public class ProjectManagerViewController implements Initializable {
         newStage.setTitle("fool-editor");
         try {
             // 加载FXML文件
-            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("mainView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getClassLoader().getResource("mainView.fxml"));
             //在FXMLLoader 加载之前先 初始化FoolContext
             fxmlLoader.setControllerFactory(param -> {
                 try {

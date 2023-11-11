@@ -17,6 +17,6 @@ public class Main {
         JavaLoggerConfig.load();
         //启用彩色日志,抄的sprinboot  looggin
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        App2.run(args);
+        App.run(args);
     }
 }
