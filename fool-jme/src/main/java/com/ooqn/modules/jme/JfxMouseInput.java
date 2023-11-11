@@ -6,7 +6,7 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.MouseButtonEvent;
 import com.jme3.input.event.MouseMotionEvent;
-import com.ooqn.modules.SimpleJfxApplication;
+import com.ooqn.modules.FxJmeApplication;
 
 import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
@@ -75,7 +75,7 @@ public class JfxMouseInput extends JfxInput implements MouseInput {
         this.mouseButtonEvents = new LinkedList<>();
     }
 
-    public void setApplication(SimpleJfxApplication application) {
+    public void setApplication(FxJmeApplication application) {
         this.threadRunner = new ThreadRunner(application);
     }
 

@@ -7,7 +7,7 @@ import com.ooqn.core.scene.EditorScene;
 
 import java.io.File;
 
-public interface EditorJmeApplication extends Application {
+public interface EditorJmeApplication extends Application{
     Camera getEditorCamera();
     Node getEditorNode();
 
@@ -17,8 +17,6 @@ public interface EditorJmeApplication extends Application {
     void saveScene();
 
     boolean isInitialized();
-
-    void reBindPostViewPort();
 
     Thread getThread();
 }

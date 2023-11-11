@@ -8,7 +8,7 @@ import java.util.Map;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.KeyInputEvent;
-import com.ooqn.modules.SimpleJfxApplication;
+import com.ooqn.modules.FxJmeApplication;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -150,7 +150,7 @@ public class JfxKeyInput extends JfxInput implements KeyInput {
         this.keyInputEvents = new LinkedList<>();
     }
 
-    public void setApplication(SimpleJfxApplication application) {
+    public void setApplication(FxJmeApplication application) {
         this.threadRunner = new ThreadRunner(application);
     }
 

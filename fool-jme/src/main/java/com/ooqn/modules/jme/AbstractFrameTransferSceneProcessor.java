@@ -9,6 +9,7 @@ import com.jme3.post.SceneProcessor;
 import com.jme3.profile.AppProfiler;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.Renderer;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.texture.FrameBuffer;
@@ -575,6 +576,16 @@ public abstract class AbstractFrameTransferSceneProcessor<T extends Node> implem
         if (!isEnabled()) {
             return;
         }
+        Camera curCamera = renderManager.getCurrentCamera();
+        Renderer renderer = renderManager.getRenderer();
+
+        int viewX = (int) (curCamera.getViewPortLeft() * curCamera.getWidth());
+        int viewY = (int) (curCamera.getViewPortBottom() * curCamera.getHeight());
+        int viewWidth = (int) ((curCamera.getViewPortRight() - curCamera.getViewPortLeft()) * curCamera.getWidth());
+        int viewHeight = (int) ((curCamera.getViewPortTop() - curCamera.getViewPortBottom()) * curCamera.getHeight());
+
+        renderer.setViewPort(0, 0, askWidth, askHeight);
+
 
         FrameTransfer frameTransfer = getFrameTransfer();
         if (frameTransfer != null) {
@@ -590,6 +601,8 @@ public abstract class AbstractFrameTransferSceneProcessor<T extends Node> implem
 
             setFrameTransfer(reshapeInThread(askWidth, askHeight, askFixAspect));
         }
+        renderer.setViewPort(viewX, viewY, viewWidth, viewHeight);
+
     }
 
     @Override
