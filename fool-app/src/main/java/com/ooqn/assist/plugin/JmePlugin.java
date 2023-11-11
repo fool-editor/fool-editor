@@ -4,11 +4,13 @@ package com.ooqn.assist.plugin;
 import cn.hutool.core.io.FileUtil;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.export.binary.BinaryImporter;
 import com.jme3.scene.Spatial;
 import com.ooqn.assist.core.FoolContext;
 import com.ooqn.assist.inspect.InspectBuilder;
+import com.ooqn.assist.plugin.state.CoordinateViewState;
 import com.ooqn.assist.tab.InspectTab;
 import com.ooqn.assist.tab.JmeSceneTreeTab;
 import com.ooqn.core.attribute.AttributeGroup;
@@ -53,6 +55,8 @@ public class JmePlugin implements Plugin {
     @Subscribe
     private void jmeStartCompleteEvent(JmeStartCompleteEvent jmeStartCompleteEvent) {
 
+        AppStateManager stateManager = FoolContext.getEditorJmeApplication().getStateManager();
+        stateManager.attach(new CoordinateViewState());
 
     }
 
