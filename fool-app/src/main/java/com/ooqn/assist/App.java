@@ -15,7 +15,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         // 加载FXML文件
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getClassLoader().getResource("projectManagerView.fxml"));
-                Parent root = fxmlLoader.load();
+        Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
         stage.setTitle("fool-editor");
         stage.setScene(scene);
