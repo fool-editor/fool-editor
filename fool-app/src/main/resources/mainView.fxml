@@ -34,79 +34,128 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooqn.assist.view.MainViewController">
-   <children>
-      <MenuBar layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <SplitPane fx:id="bodyPane" dividerPositions="0.169449081803005, 0.830550918196995" layoutX="111.0" layoutY="75.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-        <items>
-            <SplitPane dividerPositions="0.6449704142011834" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+  prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooqn.assist.view.MainViewController">
+  <children>
+    <HBox spacing="10" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <Pane HBox.hgrow="ALWAYS" >
+        <MenuBar style="-fx-background-color: transparent;">
+          <menus>
+            <Menu mnemonicParsing="false" text="File">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="240.0" prefWidth="198.0">
-                  <children>
-                    <TabPane fx:id="tabPane1" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  </children>
-                </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="248.0" prefWidth="198.0">
-                      <children>
-                        <TabPane fx:id="tabPane2" layoutX="6.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <tabs>
-                          </tabs>
-                        </TabPane>
-                      </children>
-                  </AnchorPane>
+                <MenuItem mnemonicParsing="false" text="Close" />
               </items>
-            </SplitPane>
-          <SplitPane dividerPositions="0.8199445983379502" minWidth="25" orientation="VERTICAL" prefHeight="678.0" prefWidth="787.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-              <TabPane fx:id="tabPane3" layoutX="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              <TabPane fx:id="tabPane4" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <tabs>
-                  <Tab text="Untitled Tab 1">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-                  <Tab text="Untitled Tab 2">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-                </tabs>
-              </TabPane>
-            </items>
-          </SplitPane>
-          <AnchorPane fx:id="rightPane" maxWidth="200" minWidth="200">
-               <children>
-                  <TabPane fx:id="tabPane5" layoutX="26.0" layoutY="66.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <tabs>
-                    </tabs>
-                  </TabPane>
-               </children></AnchorPane>
-        </items>
-      </SplitPane>
-      <Pane prefHeight="15.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Label fx:id="footerLabel" text="Label" />
-         </children>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Delete" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
       </Pane>
-   </children>
+      <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+        <children>
+          <Button text='Run' style='-fx-font-size: 10px;-fx-margin:10px'>
+            <HBox.margin>
+              <Insets top="3" right="3" bottom="3" left="3"/>
+          </HBox.margin>
+          </Button>
+          <Button text='Debug' style='-fx-font-size: 10px;-fx-margin:3px'>
+            <HBox.margin>
+              <Insets top="3" right="3" bottom="3" left="3"/>
+          </HBox.margin>
+          </Button>
+          <Button text='Stop' style='-fx-font-size: 10px;-fx-margin:3px'>
+            <HBox.margin>
+              <Insets top="3" right="3" bottom="3" left="3"/>
+          </HBox.margin>
+          </Button>
+        </children>
+      </HBox>
+    </HBox>
+
+
+    <SplitPane fx:id="bodyPane" dividerPositions="0.169449081803005, 0.830550918196995"
+      layoutX="111.0" layoutY="75.0" prefHeight="160.0" prefWidth="200.0"
+      AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+      AnchorPane.topAnchor="25.0">
+      <items>
+        <SplitPane dividerPositions="0.6449704142011834" orientation="VERTICAL" prefHeight="200.0"
+          prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="240.0" prefWidth="198.0">
+              <children>
+                <TabPane fx:id="tabPane1" layoutX="14.0" layoutY="14.0" prefHeight="200.0"
+                  prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                  AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="248.0" prefWidth="198.0">
+              <children>
+                <TabPane fx:id="tabPane2" layoutX="6.0" prefHeight="200.0" prefWidth="200.0"
+                  tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                  AnchorPane.topAnchor="0.0">
+                  <tabs>
+                  </tabs>
+                </TabPane>
+              </children>
+            </AnchorPane>
+          </items>
+        </SplitPane>
+        <SplitPane dividerPositions="0.8199445983379502" minWidth="25" orientation="VERTICAL"
+          prefHeight="678.0" prefWidth="787.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <items>
+            <TabPane fx:id="tabPane3" layoutX="14.0" prefHeight="200.0" prefWidth="200.0"
+              tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TabPane fx:id="tabPane4" prefHeight="200.0" prefWidth="200.0"
+              tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <tabs>
+                <Tab text="Untitled Tab 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+                <Tab text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+          </items>
+        </SplitPane>
+        <AnchorPane fx:id="rightPane" maxWidth="200" minWidth="200">
+          <children>
+            <TabPane fx:id="tabPane5" layoutX="26.0" layoutY="66.0" prefHeight="200.0"
+              prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <tabs>
+              </tabs>
+            </TabPane>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+    <Pane prefHeight="15.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
+      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <children>
+        <Label fx:id="footerLabel" text="Label" />
+      </children>
+    </Pane>
+  </children>
 </AnchorPane>
