@@ -26,7 +26,7 @@ dependencies {
     implementation "${jmonkeyengineGroup}:jme3-core:${jmonkeyengineVersion}"
     implementation "${jmonkeyengineGroup}:jme3-lwjgl:${jmonkeyengineVersion}"
     implementation "${jmonkeyengineGroup}:jme3-android:${jmonkeyengineVersion}"
-    implementation 'cn.hutool:hutool-core:5.8.16'
+    implementation 'cn.hutool:hutool-core:5.8.23'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 
     implementation project(':fool-core')

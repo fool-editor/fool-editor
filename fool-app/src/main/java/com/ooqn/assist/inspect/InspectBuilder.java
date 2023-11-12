@@ -1,39 +1,57 @@
 package com.ooqn.assist.inspect;
 
+import cn.hutool.core.util.ClassUtil;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
 import com.jme3.light.LightList;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
-import com.ooqn.assist.core.FoolContext;
-import com.ooqn.core.attribute.CallBack;
-import com.ooqn.core.attribute.ValueChangeListener;
+import com.jme3.scene.shape.Sphere;
+import com.ooqn.core.FoolContext;
+import com.ooqn.core.attribute.Attribute;
 import com.ooqn.core.attribute.group.BaseInfoAttributeGroup;
 import com.ooqn.core.attribute.AttributeGroup;
 import com.ooqn.core.attribute.group.TitlePanlAttributeGroup;
 import com.ooqn.core.attribute.lmpl.ColorRgbaAttribute;
 import com.ooqn.core.attribute.lmpl.FloatAttribute;
+import com.ooqn.core.attribute.lmpl.SelectAttribute;
 import com.ooqn.core.attribute.lmpl.Vector3fAttribute;
+import com.ooqn.core.builder.AttributeBuilder;
+import com.ooqn.core.builder.mesh.SphereMeshAttributeBuilder;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.core.scene.EditorScene;
 import com.ooqn.core.scene.wrapper.LightWrapper;
-import com.ooqn.core.scene.wrapper.Wrapper;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.WeakHashMap;
+import java.util.Set;
 
+@Slf4j
 public class InspectBuilder {
+    private static List<AttributeBuilder> attributeBuilders=new ArrayList<>();
 
+    static {
+
+
+    }
 
     public static List<AttributeGroup> createAttributeGroup(Spatial spatial) {
         try {
             List<AttributeGroup> attributeGroups = new ArrayList<>();
             attributeGroups.add(createBaseInfo(spatial));
             attributeGroups.add(createTransform(spatial));
+            if (spatial instanceof Geometry) {
+                attributeGroups.add(createMesh((Geometry) spatial));
+            }
 
             List<AttributeGroup> lights = createLight(spatial);
             attributeGroups.addAll(lights);
@@ -152,29 +170,50 @@ public class InspectBuilder {
             });
         });
         titlePanlAttributeGroup.addAttribute(scaleAttribute);
-
-
         return titlePanlAttributeGroup;
-//        AttributeGroup attributeGroup = new AttributeGroup();
-//        Transform localTransform = spatial.getLocalTransform();
-//        Vector3f translation = localTransform.getTranslation();
-//        Vector3f scale = localTransform.getScale()z;
-//        Quaternion rotation = localTransform.getRotation();
-//        float[] angles = rotation.toAngles(null);
-//        Vector3f angle = new Vector3f(angles[0], angles[1], angles[2]);
-//
-//        LabelAttribute labelAttribute = new LabelAttribute("translation");
-//        Vector3fAttribute vector3fAttribute=new Vector3fAttribute("translation",translation);
-//        Vector3fAttribute scaleAttribute=new Vector3fAttribute("scale",scale);
-//        Vector3fAttribute rotationAttribute=new Vector3fAttribute("rotation",angle);
-//
-//        attributeGroup.addAttribute(labelAttribute);
-//        attributeGroup.addAttribute(vector3fAttribute);
-//        attributeGroup.addAttribute(scaleAttribute);
-//        attributeGroup.addAttribute(rotationAttribute);
+    }
 
-//        return attributeGroup;
-//        return null;
+    private static AttributeGroup createMesh(Geometry geometry) {
+
+        TitlePanlAttributeGroup group = TitlePanlAttributeGroup.newInstance();
+        group.setTitle("Mesh");
+
+        SelectAttribute<Mesh> attribute = SelectAttribute.newInstance();
+        group.addAttribute(attribute);
+        attribute.setTitle("网格：");
+        attribute.addOption(geometry.getMesh(), geometry.getMesh().getClass().getSimpleName());
+        attribute.setValue(geometry.getMesh());
+        attribute.setValueChangeListener(newValue -> {
+
+        });
+        List<Attribute> attributes=new ArrayList<>();
+        List<SphereMeshAttributeBuilder> meshAttributeBuilders = getAttributeBuilders(SphereMeshAttributeBuilder.class);
+        for (SphereMeshAttributeBuilder meshAttributeBuilder : meshAttributeBuilders) {
+            if (meshAttributeBuilder.isHandle(geometry.getMesh())) {
+                meshAttributeBuilder.attribute(attributes,(Sphere) geometry.getMesh());
+            }
+        }
+        for (Attribute att : attributes) {
+            group.addAttribute(att);
+        }
+        return group;
+    }
+
+
+
+    public static <T extends AttributeBuilder> List<T> getAttributeBuilders(Class<T> c){
+        List<T> list=new ArrayList<>();
+        for (AttributeBuilder attributeBuilder : attributeBuilders) {
+            if (attributeBuilder.getClass().isAssignableFrom(c)) {
+                list.add((T)attributeBuilder);
+            }
+        }
+        return list;
+    }
+
+
+    public static void main(String[] args) throws IOException {
 
     }
+
 }

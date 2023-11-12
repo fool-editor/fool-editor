@@ -7,7 +7,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.ooqn.assist.core.FoolContext;
+import com.jme3.scene.shape.Sphere;
+import com.ooqn.core.FoolContext;
 import com.ooqn.core.fx.Svg;
 import com.ooqn.assist.fx.control.TreeItemValue;
 import com.ooqn.assist.util.SvgUtil;
@@ -63,7 +64,19 @@ public class SceneTreeView extends TreeView {
                 loopNode(node, getSelectTreeItem());
             });
         }));
-
+        nodeNewMenu.getItems().add(new TreeMenuItem("Sphere", List.of(Node.class), event -> {
+            Node node = getSelectTreeItemValue();
+            Sphere sphere = new Sphere(10, 10, 0.5f);
+            Geometry geometry = new Geometry("new Sphere");
+            geometry.setMesh(sphere);
+            Material material = new Material(FoolContext.getEditorJmeApplication().getAssetManager(), Materials.LIGHTING);
+            geometry.setMaterial(material);
+            FoolContext.runJmeThread(() -> {
+                node.attachChild(geometry);
+                getSelectTreeItem().setExpanded(true);
+                loopNode(node, getSelectTreeItem());
+            });
+        }));
 
 
         return nodeNewMenu;

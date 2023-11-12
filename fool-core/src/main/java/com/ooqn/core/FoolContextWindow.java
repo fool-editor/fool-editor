@@ -1,4 +1,4 @@
-package com.ooqn.assist.core;
+package com.ooqn.core;
 
 import com.ooqn.core.EditorJmeApplication;
 import javafx.scene.control.Label;

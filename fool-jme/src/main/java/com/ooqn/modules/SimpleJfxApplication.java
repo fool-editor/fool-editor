@@ -44,6 +44,7 @@ public class SimpleJfxApplication extends SimpleApplication implements EditorJme
         settings.setFrameRate(60);
         settings.setCustomRenderer(JmeOffscreenSurfaceContext.class);
         settings.setResizable(true);
+        settings.setSamples(8);
         //不知道是不是bug 设置小了 截图出来最大只有初始大小
         settings.setHeight(1204);
         settings.setWidth(1204);

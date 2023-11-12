@@ -6,7 +6,7 @@ import com.jme3.app.StatsAppState;
 import com.jme3.audio.AudioListenerState;
 import com.ooqn.assist.App;
 import com.ooqn.assist.core.EditorSaveData;
-import com.ooqn.assist.core.FoolContext;
+import com.ooqn.core.FoolContext;
 import com.ooqn.assist.domain.ProjectFile;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.assist.project.ProjectBuilder;

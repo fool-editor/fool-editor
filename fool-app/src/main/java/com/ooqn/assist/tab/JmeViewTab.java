@@ -1,6 +1,6 @@
 package com.ooqn.assist.tab;
 
-import com.ooqn.assist.core.FoolContext;
+import com.ooqn.core.FoolContext;
 import com.ooqn.core.EditorJmeApplication;
 import com.ooqn.modules.FxJmeApplication;
 import javafx.beans.value.ObservableValue;

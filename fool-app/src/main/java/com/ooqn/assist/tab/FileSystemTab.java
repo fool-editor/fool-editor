@@ -1,7 +1,7 @@
 package com.ooqn.assist.tab;
 
 import cn.hutool.core.io.FileUtil;
-import com.ooqn.assist.core.FoolContext;
+import com.ooqn.core.FoolContext;
 import com.ooqn.assist.fx.control.filetree.FileShowMenuItem;
 import com.ooqn.assist.fx.control.filetree.FileTreeItem;
 import com.ooqn.core.handel.AlertHandel;
@@ -16,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.shape.SVGPath;
 
 import java.io.File;
 import java.io.IOException;

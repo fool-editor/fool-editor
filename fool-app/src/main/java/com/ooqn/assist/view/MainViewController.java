@@ -1,14 +1,10 @@
 package com.ooqn.assist.view;
 
-import com.ooqn.assist.core.FoolContextWindow;
-import com.ooqn.assist.tab.FileSystemTab;
-import com.ooqn.core.EditorJmeApplication;
+import com.ooqn.core.FoolContextWindow;
 import com.ooqn.modules.FxJmeApplication;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import lombok.Getter;
 
 import java.net.URL;

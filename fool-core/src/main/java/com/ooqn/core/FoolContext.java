@@ -1,7 +1,6 @@
-package com.ooqn.assist.core;
+package com.ooqn.core;
 
 
-import com.ooqn.core.EditorJmeApplication;
 import com.ooqn.core.project.Project;
 
 import javafx.application.Platform;
