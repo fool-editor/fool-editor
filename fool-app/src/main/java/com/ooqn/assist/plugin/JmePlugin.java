@@ -119,27 +119,8 @@ public class JmePlugin implements Plugin {
         inspectTab.clearChildren();
         if(spatialEvent instanceof SelectSpatialEvent){
             SelectSpatialEvent selectSpatialEvent=(SelectSpatialEvent)spatialEvent;
-//            List<AttributeGroup> attributeGroups = InspectBuilder.creatAttributeGroup(selectSpatialEvent.obj);
-//            for (AttributeGroup attributeGroup : attributeGroups) {
-//                inspectTab.add(attributeGroup);
-//            }
             Spatial spatial = selectSpatialEvent.obj;
-//            // 加载FXML文件
-//            FXMLLoader fxmlLoader = new FXMLLoader(App2.class.getClassLoader().getResource("baseInfoGroup.fxml"));
-//            Pane root = fxmlLoader.load();
-//            BaseInfoController baseInfoController = fxmlLoader.getController();
-//            baseInfoController.input.setText(spatial.getName());
-//            baseInfoController.input.textProperty().addListener((observable, oldValue, newValue) -> {
-//                spatial.setName(newValue);
-//                EditorEventBus.post(new SpatialNameChangeEvent(root, spatial));
-//            });
-//            baseInfoController.info.setText(spatial.getClass().getName());
-//            Svg svg = new Svg(50, "icon/camera.svg");
-//            baseInfoController.imgPane.getChildren().add(svg);
-//
-//             inspectTab.add(root);
             List<AttributeGroup> attributeGroups = InspectBuilder.createAttributeGroup(spatial);
-
             for (AttributeGroup attributeGroup : attributeGroups) {
                 Node uiNode = attributeGroup.getUiNode();
                 inspectTab.add(uiNode);

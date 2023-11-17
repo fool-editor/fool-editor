@@ -27,6 +27,11 @@ public abstract class AttributeGroup<T extends Node> {
     }
 
     public abstract void addAttribute(Attribute attribute);
+    public  void addAttribute(List<Attribute> attributes){
+        for (Attribute attribute : attributes) {
+            addAttribute(attribute);
+        }
+    }
     public T getUiNode() {
         return uiNode;
     }

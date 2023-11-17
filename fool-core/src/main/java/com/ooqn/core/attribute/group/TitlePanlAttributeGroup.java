@@ -81,6 +81,7 @@ public class TitlePanlAttributeGroup extends AttributeGroup<AnchorPane> implemen
         vBox.getChildren().add(attribute.getUiNode());
     }
 
+
     public void setAllowDelete(boolean allowDelete) {
         this.allowDelete = allowDelete;
         deleteMenuItem.setDisable(!allowDelete);

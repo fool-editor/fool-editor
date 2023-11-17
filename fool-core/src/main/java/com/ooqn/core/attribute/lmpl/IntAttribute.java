@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,8 +34,9 @@ public class IntAttribute extends Attribute<Integer> implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 使用TextFormatter来限制只能输入数字
-        textField.setTextFormatter(new TextFormatter<>(new FloatStringConverter(), 0f, c ->
+        textField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0, c ->
                 (c.getControlNewText().matches("\\d*")) ? c : null));
+
         textField.setOnScroll(event -> {
             double deltaY = event.getDeltaY();
             String text = textField.getText();

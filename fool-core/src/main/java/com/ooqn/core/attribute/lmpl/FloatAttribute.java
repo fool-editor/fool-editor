@@ -2,6 +2,8 @@ package com.ooqn.core.attribute.lmpl;
 
 
 import com.ooqn.core.attribute.Attribute;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,6 +51,7 @@ public class FloatAttribute extends Attribute<Float> implements Initializable {
             }
             textField.setText(v+"");
         });
+        textField.textProperty().addListener((observable, oldValue, newValue) -> valueChange(getValue()));
     }
 
     public static FloatAttribute newInstance() {
