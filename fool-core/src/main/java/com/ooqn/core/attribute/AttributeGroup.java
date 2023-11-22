@@ -27,6 +27,9 @@ public abstract class AttributeGroup<T extends Node> {
     }
 
     public abstract void addAttribute(Attribute attribute);
+    public abstract void removeAttribute(Attribute attribute);
+    public abstract int attributeSize();
+    public abstract void removeAttribute(int start,int end);
     public  void addAttribute(List<Attribute> attributes){
         for (Attribute attribute : attributes) {
             addAttribute(attribute);

@@ -17,8 +17,9 @@ import java.util.ResourceBundle;
 
 public class FloatAttribute extends Attribute<Float> implements Initializable {
 
-    private float step=1.0f;
+    private float step = 1.0f;
 
+    private Float minValue;
     @FXML
     public TextField textField;
 
@@ -37,6 +38,7 @@ public class FloatAttribute extends Attribute<Float> implements Initializable {
         return new TextFormatter<>(new FloatStringConverter(), 0f, c ->
                 (c.getControlNewText().matches("-?\\d*\\.?\\d*")) ? c : null);
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textField.setTextFormatter(creatFloatTextFormatter());
@@ -45,13 +47,24 @@ public class FloatAttribute extends Attribute<Float> implements Initializable {
             String text = textField.getText();
             float v = Float.parseFloat(text);
             if (deltaY > 0) {
-                v=v+step;
+                v = v + step;
             } else if (deltaY < 0) {
-                v=v+-step;
+                v = v + -step;
             }
-            textField.setText(v+"");
+            textField.setText(v + "");
         });
-        textField.textProperty().addListener((observable, oldValue, newValue) -> valueChange(getValue()));
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            float v = Float.parseFloat(newValue);
+            if (minValue != null && v < minValue) {
+                setValue(minValue);
+                return;
+            }
+            valueChange(getValue());
+        });
+    }
+
+    public void setMinValue(Float minValue) {
+        this.minValue = minValue;
     }
 
     public static FloatAttribute newInstance() {
@@ -64,4 +77,6 @@ public class FloatAttribute extends Attribute<Float> implements Initializable {
         FloatAttribute attribute = fxmlLoader.getController();
         return attribute;
     }
+
+
 }

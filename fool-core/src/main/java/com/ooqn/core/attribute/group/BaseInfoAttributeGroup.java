@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BaseInfoAttributeGroup extends AttributeGroup<AnchorPane> implements Initializable {
@@ -53,6 +54,23 @@ public class BaseInfoAttributeGroup extends AttributeGroup<AnchorPane> implement
     public void addAttribute(Attribute attribute) {
 
     }
+
+    @Override
+    public void removeAttribute(Attribute attribute) {
+
+    }
+
+    @Override
+    public int attributeSize() {
+        return 0;
+    }
+
+    @Override
+    public void removeAttribute(int start, int end) {
+    }
+
+
+
     public static BaseInfoAttributeGroup newInstance()  {
         FXMLLoader fxmlLoader = new FXMLLoader(Vector3fAttribute.class.getClassLoader().getResource("fxml/group/baseInfoGroup.fxml"));
         try {

@@ -10,6 +10,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.PQTorus;
 import com.jme3.scene.shape.Sphere;
 import com.ooqn.core.FoolContext;
 import com.ooqn.core.attribute.Attribute;
@@ -21,6 +23,7 @@ import com.ooqn.core.attribute.lmpl.FloatAttribute;
 import com.ooqn.core.attribute.lmpl.SelectAttribute;
 import com.ooqn.core.attribute.lmpl.Vector3fAttribute;
 import com.ooqn.core.builder.AttributeBuilder;
+import com.ooqn.core.builder.mesh.MeshAttributeBuilder;
 import com.ooqn.core.builder.mesh.SphereMeshAttributeBuilder;
 import com.ooqn.core.handel.AlertHandel;
 import com.ooqn.core.plugin.Plugin;
@@ -47,12 +50,13 @@ public class InspectBuilder {
             List<AttributeGroup> attributeGroups = new ArrayList<>();
             attributeGroups.add(createBaseInfo(spatial));
             attributeGroups.add(createTransform(spatial));
+            List<AttributeGroup> lights = createLight(spatial);
+            attributeGroups.addAll(lights);
+
             if (spatial instanceof Geometry) {
                 attributeGroups.add(createMesh((Geometry) spatial));
             }
 
-            List<AttributeGroup> lights = createLight(spatial);
-            attributeGroups.addAll(lights);
 
             return attributeGroups;
         } catch (Exception e) {
@@ -141,6 +145,8 @@ public class InspectBuilder {
     }
 
     private static AttributeGroup createMesh(Geometry geometry) {
+        List<MeshAttributeBuilder> meshAttributeBuilders = getAttributeBuilders(MeshAttributeBuilder.class);
+
 
         TitlePanlAttributeGroup group = TitlePanlAttributeGroup.newInstance();
         group.setTitle("Mesh");
@@ -148,21 +154,28 @@ public class InspectBuilder {
         SelectAttribute<Mesh> attribute = SelectAttribute.newInstance();
         group.addAttribute(attribute);
         attribute.setTitle("网格：");
-        attribute.addOption(geometry.getMesh(), geometry.getMesh().getClass().getSimpleName());
-        attribute.setValue(geometry.getMesh());
-        attribute.setValueChangeListener(newValue -> {
-
-        });
-        List<Attribute> attributes = new ArrayList<>();
-        List<SphereMeshAttributeBuilder> meshAttributeBuilders = getAttributeBuilders(SphereMeshAttributeBuilder.class);
-        for (SphereMeshAttributeBuilder meshAttributeBuilder : meshAttributeBuilders) {
-            if (meshAttributeBuilder.isHandle(geometry.getMesh())) {
-                meshAttributeBuilder.attribute(attributes, (Sphere) geometry.getMesh());
+        for (MeshAttributeBuilder meshAttributeBuilder : meshAttributeBuilders) {
+            Mesh mesh = meshAttributeBuilder.createNewMesh();
+            if(geometry.getMesh().getClass().equals(mesh.getClass())){
+                mesh=geometry.getMesh();
             }
+            attribute.addOption(mesh, mesh.getClass().getSimpleName());
         }
-        for (Attribute att : attributes) {
-            group.addAttribute(att);
-        }
+
+        attribute.setValueChangeListener(newValue -> {
+            group.removeAttribute(1,group.attributeSize());
+            geometry.setMesh(newValue);
+            List<Attribute> attributes = new ArrayList<>();
+            for (MeshAttributeBuilder meshAttributeBuilder : meshAttributeBuilders) {
+                if (meshAttributeBuilder.isHandle(geometry.getMesh())) {
+                    meshAttributeBuilder.attribute(attributes, geometry.getMesh());
+                }
+            }
+            for (Attribute att : attributes) {
+                group.addAttribute(att);
+            }
+        });
+        attribute.setValue(geometry.getMesh());
         return group;
     }
 
@@ -171,7 +184,7 @@ public class InspectBuilder {
         checkAttributeBuilders();
         List<T> list = new ArrayList<>();
         for (AttributeBuilder attributeBuilder : attributeBuilders) {
-            if (attributeBuilder.getClass().isAssignableFrom(c)) {
+            if (c.isAssignableFrom(attributeBuilder.getClass())) {
                 list.add((T) attributeBuilder);
             }
         }

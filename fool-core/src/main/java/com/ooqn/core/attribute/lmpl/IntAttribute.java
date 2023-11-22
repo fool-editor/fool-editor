@@ -21,6 +21,8 @@ public class IntAttribute extends Attribute<Integer> implements Initializable {
     @FXML
     public TextField textField;
 
+    private Integer minValue;
+
     @Override
     public void setValue(Integer value) {
         textField.textProperty().setValue(value.toString());
@@ -28,7 +30,7 @@ public class IntAttribute extends Attribute<Integer> implements Initializable {
 
     @Override
     public Integer getValue() {
-        return Integer.getInteger(textField.getText());
+        return Integer.parseInt(textField.getText());
     }
 
     @Override
@@ -40,7 +42,7 @@ public class IntAttribute extends Attribute<Integer> implements Initializable {
         textField.setOnScroll(event -> {
             double deltaY = event.getDeltaY();
             String text = textField.getText();
-            float v = Float.parseFloat(text);
+            int v = Integer.parseInt(text);
             if (deltaY > 0) {
                 v=v+step;
             } else if (deltaY < 0) {
@@ -49,10 +51,18 @@ public class IntAttribute extends Attribute<Integer> implements Initializable {
             textField.setText(v+"");
         });
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            valueChange(getValue());
+            int v = Integer.parseInt(newValue);
+            if(minValue!=null && v < minValue){
+                setValue(minValue);
+                return;
+            }
+            valueChange(v);
         });
     }
 
+    public void setMinValue(Integer minValue) {
+        this.minValue = minValue;
+    }
 
     public static IntAttribute newInstance() {
         FXMLLoader fxmlLoader = new FXMLLoader(FloatAttribute.class.getClassLoader().getResource("fxml/attribute/intAttribute.fxml"));
@@ -64,4 +74,6 @@ public class IntAttribute extends Attribute<Integer> implements Initializable {
         IntAttribute attribute = fxmlLoader.getController();
         return attribute;
     }
+
+
 }

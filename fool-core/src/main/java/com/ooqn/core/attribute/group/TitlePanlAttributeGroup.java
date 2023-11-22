@@ -41,9 +41,12 @@ public class TitlePanlAttributeGroup extends AttributeGroup<AnchorPane> implemen
     private ValueChangeListener<Boolean> enableValueChangeListener;
     private List<CallBack> deleteCallBacks;
 
+    private List<Attribute> attributes;
+
     public TitlePanlAttributeGroup() {
         showEnableCheckBox = false;
         deleteCallBacks=new ArrayList<>();
+        attributes=new ArrayList<>();
     }
 
     public void setTitle(String title) {
@@ -78,9 +81,28 @@ public class TitlePanlAttributeGroup extends AttributeGroup<AnchorPane> implemen
 
     @Override
     public void addAttribute(Attribute attribute) {
+        attributes.add(attribute);
         vBox.getChildren().add(attribute.getUiNode());
     }
 
+    @Override
+    public void removeAttribute(Attribute attribute) {
+        attributes.remove(attribute);
+        vBox.getChildren().remove(attribute.getUiNode());
+    }
+
+    @Override
+    public int attributeSize() {
+        return attributes.size();
+    }
+
+    @Override
+    public void removeAttribute(int start, int end) {
+        for (int i = start; i < end; i++) {
+            attributes.remove(start);
+        }
+       vBox.getChildren().remove(start,end);
+    }
 
     public void setAllowDelete(boolean allowDelete) {
         this.allowDelete = allowDelete;
